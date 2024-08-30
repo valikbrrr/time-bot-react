@@ -1,22 +1,26 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
-console.log(Window);
-
-const tg = window.Telegram.WebApp
 
 function App() {
+  const [tg] = useState<WebApp | null>(null);
 
   useEffect(() => {
-    tg.ready()
-  }, [])
+    const telegram = window.Telegram?.WebApp;
+    if (telegram) {
+      telegram.ready(); // Инициализация
+    }
+  }, []);
 
   const onClose = () => {
-    tg.close()
-  }
+    if (tg) {
+      tg.close();
+    }
+  };
 
   return (
-    <div className="App">
-      <button className='bg-emerald-600' onClick={onClose}>закрыть</button>
+    <div className="bg-slate-700 h-96 w-96">
+      <button className='bg-emerald-600 h-10 w-10' onClick={onClose}>закрыть</button>
+      <div className="bg-red-700 h-[100px] w-[100px]">like</div>
     </div>
   );
 }
