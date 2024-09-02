@@ -1,20 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import './App.css';
 
+const tg = window.Telegram?.WebApp;
+
 function App() {
-  const [tg] = useState<WebApp | null>(null);
 
   useEffect(() => {
-    const telegram = window.Telegram?.WebApp;
-    if (telegram) {
-      telegram.ready(); // Инициализация
-    }
+      tg.ready(); // Инициализация
   }, []);
 
-  console.log(tg);
 
   const onClose = () => {
-    tg?.close()
+    tg.close()
   }
 
   return (
