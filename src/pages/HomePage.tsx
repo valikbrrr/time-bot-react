@@ -5,7 +5,7 @@ const HomePage = () => {
 
   return (
     <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col justify-between">
-        <div className="pt-28">
+        <div className="pt-28 px-[10%]">
           <div className="text-center text-white text-4xl mb-3">Добро пожаловать!</div>
           <div className="text-center text-white text-3xl mb-4">Выберите формат ввода времени</div>
         </div>
