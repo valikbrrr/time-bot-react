@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router-dom";
+import BackArrow from "../../assets/BackArrow";
 
 const ProjectBranch = () => {
   const navigate = useNavigate();
 
   return (
     <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col justify-between">
-      <div className="pt-28 px-[10%]">
+      <BackArrow lastPage={"/"} />
+      <div className="pt-8 px-[10%]">
         <div className="text-center text-white text-3xl mb-4">Вы можете добавить или просмотреть часы😊</div>
       </div>
       <div className="flex justify-center mb-40"> 
