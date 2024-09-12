@@ -38,7 +38,7 @@ const AddHoursMonth = () => {
                         {months.map((month, index) => {
                             let selectedButton;
                             if (selectedMonth === index) {
-                                selectedButton = index === 0 ? month : index === 1 ? month : `${month}`;
+                                selectedButton = index === 0 ? month : index === 1 ? month : month;
                                 console.log(selectedButton);
                             }
                             // if (selectedMonth === index) {
