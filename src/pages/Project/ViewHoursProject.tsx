@@ -25,7 +25,7 @@ const ViewHoursProject = () => {
 
     return (
         <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col justify-between">
-            <BackArrow lastPage={"/addhoursproject"} />
+            <BackArrow lastPage={"/projectbranch"} />
             <div className="pt-8 px-[10%]">
                 <div className="text-center text-white text-3xl mb-4">
                     Выберите проект для просмотра часов

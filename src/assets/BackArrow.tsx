@@ -5,7 +5,7 @@ interface BackArrowProps {
   lastPage: string; // Указываем тип
 }
 
-const BackArrow: React.FC<BackArrowProps>  = ({lastPage}) => {
+const BackArrow: React.FC<BackArrowProps> = ({lastPage}) => {
    const navigate = useNavigate()
  return (
    <div 
