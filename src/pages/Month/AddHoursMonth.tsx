@@ -55,7 +55,7 @@ const AddHoursMonth: React.FC = () => {
 
             if (response.ok) {
                 alert('Данные успешно отправлены');
-                setHours(''); // Очистить поле ввода после успешной отправки
+                setHours(''); 
             } else {
                 alert('Ошибка при отправке данных');
             }

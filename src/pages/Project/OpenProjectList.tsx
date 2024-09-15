@@ -1,4 +1,4 @@
-import BackArrow from "../../assets/BackArrow"
+import BackArrow from "../../assets/BackArrow";
 import { useEffect, useState } from 'react';
 
 const OpenProjectList = () => {
@@ -28,18 +28,18 @@ const OpenProjectList = () => {
             <BackArrow lastPage={"/addhoursproject"} />
             <div className="pt-8 px-[10%]">
                 <div className="text-center text-white text-3xl mb-4">
-                    открыть список проектов
+                    Открыть список проектов
                 </div>
             </div>
             <div className="flex justify-center mb-40">
                 <div className="w-[70%]">
-                    <div className="flex flex-col items-center">
+                    <div className="grid grid-cols-2 gap-4"> {/* Изменено на grid с двумя колонками */}
                         {loading ? ( // Проверка состояния загрузки
-                            <div className="text-white">Загрузка проектов...</div>
+                            <div className="text-white text-center">Загрузка проектов...</div>
                         ) : (
                             projects.map((project, index) => (
                                 <button
-                                    className='bg-blue-500 text-white rounded-xl p-3 w-full mb-4 transition duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-600 shadow-lg hover:shadow-xl' 
+                                    className='bg-blue-500 text-white rounded-xl p-3 transition duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-600 shadow-lg hover:shadow-xl' 
                                     key={index}
                                 >
                                     {project}
@@ -50,7 +50,7 @@ const OpenProjectList = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default OpenProjectList
+export default OpenProjectList;

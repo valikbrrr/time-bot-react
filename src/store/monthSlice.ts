@@ -14,7 +14,6 @@ const monthSlice = createSlice({
     reducers: {
         selectMonth: (state, action: PayloadAction<string>) => {
             state.selectedMonth = action.payload;
-            console.log(action.payload);
         },
         resetMonth: (state) => {
             state.selectedMonth = null;

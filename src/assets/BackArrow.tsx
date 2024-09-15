@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom"
 
 
 interface BackArrowProps {
-  lastPage: string; // Указываем тип
+  lastPage: string; 
 }
 
 const BackArrow: React.FC<BackArrowProps> = ({lastPage}) => {

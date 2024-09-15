@@ -1,10 +1,13 @@
 // src/store/store.ts
 import { configureStore } from '@reduxjs/toolkit';
 import monthReducer from './monthSlice';
+import monthViewReducer from "./monthViewSlice"
+
 
 const store = configureStore({
     reducer: {
         month: monthReducer,
+        monthView: monthViewReducer,
     },
 });
 
