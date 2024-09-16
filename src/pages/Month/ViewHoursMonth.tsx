@@ -5,13 +5,13 @@ import { selectMonthView } from '../../store/monthViewSlice';
 
 const ViewHoursMonth = () => {
     const tg = window.Telegram.WebApp 
-
+    
     const dispatch = useDispatch();
     const [months, setMonths] = useState([]);
     const [hours, setHours] = useState(0);
+    const [id, setId] = useState(Number)
     const selectedMonthView = useSelector((state: any) => state.monthView.selectedMonthView);
-    // const userName = "ВашеИмяПользователя"; // Замените на способ получения имени пользователя
-
+    
     useEffect(() => {
         const fetchMonths = async () => {
             try {
@@ -28,18 +28,15 @@ const ViewHoursMonth = () => {
 
     useEffect(() => {
         const fetchHours = async () => {
-            const name = tg.initDataUnsafe.user?.username
-            console.log(`nameView - ${name}`);
-            
             if (selectedMonthView) {
                 try {
+                    setId(tg.initDataUnsafe.user!.id)
                     const response = await fetch('http://localhost:3001/api/view-hours-month', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({
-                            userName: name,
                             userSelectMonth: selectedMonthView,
                         }),
                     });
@@ -53,7 +50,7 @@ const ViewHoursMonth = () => {
         };
 
         fetchHours();
-    }, [selectedMonthView, tg.initDataUnsafe.user?.username]);
+    }, [selectedMonthView, tg.initDataUnsafe.user]);
 
     const handleMonthSelectView = (month: string) => {
         dispatch(selectMonthView(month));
@@ -66,7 +63,7 @@ const ViewHoursMonth = () => {
                     <BackArrow lastPage={"/mouthbranch"} />
                     <div className="flex-grow flex items-center justify-center">
                         <div className="text-center text-white text-3xl mb-4">
-                            Ваши часы за {selectedMonthView} - {hours}
+                            Ваши часы за {selectedMonthView} - {hours} и ид - {id}
                         </div>
                     </div>
                 </div>
