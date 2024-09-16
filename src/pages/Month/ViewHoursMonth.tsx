@@ -10,7 +10,7 @@ const ViewHoursMonth = () => {
     const [months, setMonths] = useState([]);
     const [hours, setHours] = useState(0);
     const selectedMonthView = useSelector((state: any) => state.monthView.selectedMonthView);
-    const userName = "ВашеИмяПользователя"; // Замените на способ получения имени пользователя
+    // const userName = "ВашеИмяПользователя"; // Замените на способ получения имени пользователя
 
     useEffect(() => {
         const fetchMonths = async () => {
@@ -53,7 +53,7 @@ const ViewHoursMonth = () => {
         };
 
         fetchHours();
-    }, [selectedMonthView]);
+    }, [selectedMonthView, tg.initDataUnsafe.user?.username]);
 
     const handleMonthSelectView = (month: string) => {
         dispatch(selectMonthView(month));
