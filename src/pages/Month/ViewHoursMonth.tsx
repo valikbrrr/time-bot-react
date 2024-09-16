@@ -4,10 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectMonthView } from '../../store/monthViewSlice';
 
 const ViewHoursMonth = () => {
+    const tg = window.Telegram.WebApp 
+
     const dispatch = useDispatch();
     const [months, setMonths] = useState([]);
-    const [hours, setHours] = useState()
+    const [hours, setHours] = useState(0);
     const selectedMonthView = useSelector((state: any) => state.monthView.selectedMonthView);
+    const userName = "ВашеИмяПользователя"; // Замените на способ получения имени пользователя
 
     useEffect(() => {
         const fetchMonths = async () => {
@@ -25,19 +28,34 @@ const ViewHoursMonth = () => {
 
     useEffect(() => {
         const fetchHours = async () => {
-            try {
-                const response = await fetch('http://localhost:3001/api//view-hours-month');
+            const name = tg.initDataUnsafe.user?.username
+            console.log(`nameView - ${name}`);
+            
+            if (selectedMonthView) {
+                try {
+                    const response = await fetch('http://localhost:3001/api/view-hours-month', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            userName: name,
+                            userSelectMonth: selectedMonthView,
+                        }),
+                    });
 
-            } catch (error) {
-                console.error('Ошибка при получении данных о часах: ', error);
+                    const data = await response.json();
+                    setHours(data.hours);
+                } catch (error) {
+                    console.error('Ошибка при получении данных о часах: ', error);
+                }
             }
-        }
+        };
 
-        fetchHours()
-    }, [])
+        fetchHours();
+    }, [selectedMonthView]);
 
     const handleMonthSelectView = (month: string) => {
-        console.log(month);
         dispatch(selectMonthView(month));
     };
 
@@ -45,37 +63,37 @@ const ViewHoursMonth = () => {
         <div className="">
             {selectedMonthView ? (
                 <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col">
-    <BackArrow lastPage={"/mouthbranch"} />
-    <div className="flex-grow flex items-center justify-center">
-        <div className="text-center text-white text-3xl mb-4">
-            Ваши часы за {selectedMonthView} - {hours}
-        </div>
-    </div>
-</div>
-            ) : (
-                <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col justify-between">
-                <BackArrow lastPage={"/mouthbranch"} />
-                <div className="pt-8 px-[10%]">
-                    <div className="text-center text-white text-3xl mb-4">
-                        Выберите месяц для просмотра часов
-                    </div>
-                </div>
-                <div className="flex justify-center mb-40">
-                    <div className="w-[70%]">
-                        <div className="flex flex-col items-center">
-                            {months.map((month, index) => (
-                                <button
-                                    className={`bg-blue-500 text-white rounded-xl p-3 w-full mb-4 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl`}
-                                    key={index}
-                                    onClick={() => handleMonthSelectView(month)}
-                                >
-                                    {month}
-                                </button>
-                            ))}
+                    <BackArrow lastPage={"/mouthbranch"} />
+                    <div className="flex-grow flex items-center justify-center">
+                        <div className="text-center text-white text-3xl mb-4">
+                            Ваши часы за {selectedMonthView} - {hours}
                         </div>
                     </div>
                 </div>
-            </div>
+            ) : (
+                <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col justify-between">
+                    <BackArrow lastPage={"/mouthbranch"} />
+                    <div className="pt-8 px-[10%]">
+                        <div className="text-center text-white text-3xl mb-4">
+                            Выберите месяц для просмотра часов
+                        </div>
+                    </div>
+                    <div className="flex justify-center mb-40">
+                        <div className="w-[70%]">
+                            <div className="flex flex-col items-center">
+                                {months.map((month, index) => (
+                                    <button
+                                        className={`bg-blue-500 text-white rounded-xl p-3 w-full mb-4 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl`}
+                                        key={index}
+                                        onClick={() => handleMonthSelectView(month)}
+                                    >
+                                        {month}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );
