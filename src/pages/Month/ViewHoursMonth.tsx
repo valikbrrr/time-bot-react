@@ -79,7 +79,6 @@ const ViewHoursMonth = () => {
                         <div className="text-center text-white text-3xl mb-4">
                             Ваши часы за {selectedMonthView} - "{hours}" 
                             и ид - "{id}""
-                            и - "{a}"
                         </div>
                     </div>
                 </div>
