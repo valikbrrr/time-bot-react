@@ -68,7 +68,7 @@ const ViewHoursMonth = () => {
         dispatch(selectMonthView(month));
     };
 
-    const a = tg.initDataUnsafe.user
+    // const a = tg.initDataUnsafe.user
 
     return (
         <div className="">
