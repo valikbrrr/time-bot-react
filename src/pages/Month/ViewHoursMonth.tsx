@@ -68,6 +68,8 @@ const ViewHoursMonth = () => {
         dispatch(selectMonthView(month));
     };
 
+    const a = tg.initDataUnsafe.user
+
     return (
         <div className="">
             {selectedMonthView ? (
@@ -77,7 +79,7 @@ const ViewHoursMonth = () => {
                         <div className="text-center text-white text-3xl mb-4">
                             Ваши часы за {selectedMonthView} - "{hours}" 
                             и ид - "{id}""
-                            и - "{tg.initDataUnsafe.user}"
+                            и - "{a}"
                         </div>
                     </div>
                 </div>
