@@ -28,29 +28,41 @@ const ViewHoursMonth = () => {
 
     useEffect(() => {
         const fetchHours = async () => {
-            if (selectedMonthView) {
+            console.log(`selectedMonthView - ${selectedMonthView}`);
+            console.log(tg.initDataUnsafe.user);
+            
+            
+            if (selectedMonthView && tg.initDataUnsafe.user) {
                 try {
-                    setId(tg.initDataUnsafe.user!.id)
+                    // console.log(`work1`);
+                    setId(tg.initDataUnsafe.user.id)
+                    // console.log(`work2`);
                     const response = await fetch('http://localhost:3001/api/view-hours-month', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
+                        
                         body: JSON.stringify({
+                            userId: id,
                             userSelectMonth: selectedMonthView,
                         }),
                     });
 
                     const data = await response.json();
+                    console.log(`id front - ${id}`);
+                    
                     setHours(data.hours);
                 } catch (error) {
                     console.error('Ошибка при получении данных о часах: ', error);
                 }
+            } else {
+                console.log(`вероятно ошикбка связана с тем, что мы не можем распознать ваш id или вы не выбрали месяц`);
             }
         };
 
         fetchHours();
-    }, [selectedMonthView, tg.initDataUnsafe.user]);
+    }, [id, selectedMonthView, tg.initDataUnsafe, tg.initDataUnsafe.user]);
 
     const handleMonthSelectView = (month: string) => {
         dispatch(selectMonthView(month));
@@ -63,7 +75,9 @@ const ViewHoursMonth = () => {
                     <BackArrow lastPage={"/mouthbranch"} />
                     <div className="flex-grow flex items-center justify-center">
                         <div className="text-center text-white text-3xl mb-4">
-                            Ваши часы за {selectedMonthView} - {hours} и ид - {id}
+                            Ваши часы за {selectedMonthView} - "{hours}" 
+                            и ид - "{id}""
+                            и - "{tg.initDataUnsafe.user}"
                         </div>
                     </div>
                 </div>
