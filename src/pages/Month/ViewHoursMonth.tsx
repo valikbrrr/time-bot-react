@@ -5,11 +5,10 @@ import { selectMonthView } from '../../store/monthViewSlice';
 
 const ViewHoursMonth = () => {
     const tg = window.Telegram.WebApp;
-
     const dispatch = useDispatch();
     const [months, setMonths] = useState([]);
     const [hours, setHours] = useState(0);
-    const [id, setId] = useState<number>(0); // Инициализация id как 0
+    const [id, setId] = useState<number>(0);
     const [hasFetchedHours, setHasFetchedHours] = useState(false);
     const selectedMonthView = useSelector((state: any) => state.monthView.selectedMonthView);
 
@@ -29,17 +28,15 @@ const ViewHoursMonth = () => {
 
     useEffect(() => {
         const fetchHours = async () => {
-            // Проверка: если уже получены данные или условия не выполнены, выходим
             if (hasFetchedHours || !selectedMonthView || !tg.initDataUnsafe.user) {
                 return;
             }
 
-            const userId = tg.initDataUnsafe.user.id; // Получение ID здесь
+            const userId = tg.initDataUnsafe.user.id;
 
-            // Проверка на некорректный userId
             if (userId === 0) {
-                console.log('Получен некорректный userId');
-                return; // Прекращаем выполнение, если userId некорректный
+                console.error('Получен некорректный userId');
+                return;
             }
 
             console.log(`selectedMonthView - ${selectedMonthView}`);
@@ -51,17 +48,25 @@ const ViewHoursMonth = () => {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        userId: userId,
+                        userId: userId.toString(), // Приведение к строке
                         userSelectMonth: selectedMonthView,
                     }),
                 });
 
-                const data = await response.json();
-                console.log(`id front - ${userId}`);
+                if (!response.ok) {
+                    throw new Error(`Ошибка сети: ${response.status}`);
+                }
 
-                setHours(data.hours);
-                setId(userId); // Устанавливаем id
-                setHasFetchedHours(true); // Устанавливаем флаг, что данные получены
+                const data = await response.json();
+                console.log(`id front - ${userId}`, data);
+
+                if (data.hours !== undefined) {
+                    setHours(data.hours);
+                    setId(userId);
+                    setHasFetchedHours(true);
+                } else {
+                    console.error('Данные о часах отсутствуют:', data);
+                }
             } catch (error) {
                 console.error('Ошибка при получении данных о часах: ', error);
             }
