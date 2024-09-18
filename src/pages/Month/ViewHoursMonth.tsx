@@ -4,14 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectMonthView } from '../../store/monthViewSlice';
 
 const ViewHoursMonth = () => {
-    const tg = window.Telegram.WebApp 
-    
+    const tg = window.Telegram.WebApp;
+
     const dispatch = useDispatch();
     const [months, setMonths] = useState([]);
     const [hours, setHours] = useState(0);
-    const [id, setId] = useState(Number)
+    const [id, setId] = useState<number>(0); // Инициализация id как 0
+    const [hasFetchedHours, setHasFetchedHours] = useState(false);
     const selectedMonthView = useSelector((state: any) => state.monthView.selectedMonthView);
-    
+
     useEffect(() => {
         const fetchMonths = async () => {
             try {
@@ -28,47 +29,50 @@ const ViewHoursMonth = () => {
 
     useEffect(() => {
         const fetchHours = async () => {
-            console.log(`selectedMonthView - ${selectedMonthView}`);
-            console.log(tg.initDataUnsafe.user);
-            
-            
-            if (selectedMonthView && tg.initDataUnsafe.user) {
-                try {
-                    // console.log(`work1`);
-                    setId(tg.initDataUnsafe.user.id)
-                    // console.log(`work2`);
-                    const response = await fetch('http://localhost:3001/api/view-hours-month', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        
-                        body: JSON.stringify({
-                            userId: id,
-                            userSelectMonth: selectedMonthView,
-                        }),
-                    });
+            // Проверка: если уже получены данные или условия не выполнены, выходим
+            if (hasFetchedHours || !selectedMonthView || !tg.initDataUnsafe.user) {
+                return;
+            }
 
-                    const data = await response.json();
-                    console.log(`id front - ${id}`);
-                    
-                    setHours(data.hours);
-                } catch (error) {
-                    console.error('Ошибка при получении данных о часах: ', error);
-                }
-            } else {
-                console.log(`вероятно ошикбка связана с тем, что мы не можем распознать ваш id или вы не выбрали месяц`);
+            const userId = tg.initDataUnsafe.user.id; // Получение ID здесь
+
+            // Проверка на некорректный userId
+            if (userId === 0) {
+                console.log('Получен некорректный userId');
+                return; // Прекращаем выполнение, если userId некорректный
+            }
+
+            console.log(`selectedMonthView - ${selectedMonthView}`);
+
+            try {
+                const response = await fetch('http://localhost:3001/api/view-hours-month', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userId: userId,
+                        userSelectMonth: selectedMonthView,
+                    }),
+                });
+
+                const data = await response.json();
+                console.log(`id front - ${userId}`);
+
+                setHours(data.hours);
+                setId(userId); // Устанавливаем id
+                setHasFetchedHours(true); // Устанавливаем флаг, что данные получены
+            } catch (error) {
+                console.error('Ошибка при получении данных о часах: ', error);
             }
         };
 
         fetchHours();
-    }, [id, selectedMonthView, tg.initDataUnsafe, tg.initDataUnsafe.user]);
+    }, [selectedMonthView, tg.initDataUnsafe.user, hasFetchedHours]);
 
     const handleMonthSelectView = (month: string) => {
         dispatch(selectMonthView(month));
     };
-
-    const a = tg.initDataUnsafe.user?.toString()
 
     return (
         <div className="">
@@ -77,9 +81,7 @@ const ViewHoursMonth = () => {
                     <BackArrow lastPage={"/mouthbranch"} />
                     <div className="flex-grow flex items-center justify-center">
                         <div className="text-center text-white text-3xl mb-4">
-                            Ваши часы за {selectedMonthView} - "{hours}" 
-                            и ид - "{id}""
-                            ААА - {a}
+                            Ваши часы за {selectedMonthView} - "{hours}" и ид - "{id}"
                         </div>
                     </div>
                 </div>
