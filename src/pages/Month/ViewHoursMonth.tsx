@@ -8,7 +8,6 @@ const ViewHoursMonth = () => {
     const dispatch = useDispatch();
     const [months, setMonths] = useState([]);
     const [hours, setHours] = useState(0);
-    const [id, setId] = useState<number>(0);
     const [hasFetchedHours, setHasFetchedHours] = useState(false);
     const [loading, setLoading] = useState(true); // Состояние загрузки
     const selectedMonthView = useSelector((state: any) => state.monthView.selectedMonthView);
@@ -64,7 +63,6 @@ const ViewHoursMonth = () => {
 
                 if (data.hours !== undefined) {
                     setHours(data.hours);
-                    setId(userId);
                     setHasFetchedHours(true);
                 } else {
                     console.error('Данные о часах отсутствуют:', data);
