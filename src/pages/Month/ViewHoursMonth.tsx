@@ -27,6 +27,14 @@ const ViewHoursMonth = () => {
     }, []);
 
     useEffect(() => {
+        if (!selectedMonthView) {
+            setHours(0);
+            setHasFetchedHours(false);
+            setLoading(true);
+        }
+    }, [selectedMonthView]);
+
+    useEffect(() => {
         const fetchHours = async () => {
             if (hasFetchedHours || !selectedMonthView || !tg.initDataUnsafe.user) {
                 return;
