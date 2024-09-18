@@ -93,7 +93,7 @@ const ViewHoursMonth = () => {
                             {loading ? (
                                 "идёт загрузка..."
                             ) : (
-                                `Ваши часы за ${selectedMonthView} - "${hours}" и ид - "${id}"`
+                                `Ваши часы за ${selectedMonthView} - "${hours}"`
                             )}
                         </div>
                     </div>
