@@ -10,6 +10,7 @@ const ViewHoursMonth = () => {
     const [hours, setHours] = useState(0);
     const [id, setId] = useState<number>(0);
     const [hasFetchedHours, setHasFetchedHours] = useState(false);
+    const [loading, setLoading] = useState(true); // Состояние загрузки
     const selectedMonthView = useSelector((state: any) => state.monthView.selectedMonthView);
 
     useEffect(() => {
@@ -40,6 +41,7 @@ const ViewHoursMonth = () => {
             }
 
             console.log(`selectedMonthView - ${selectedMonthView}`);
+            setLoading(true); // Начало загрузки
 
             try {
                 const response = await fetch('http://localhost:3001/api/view-hours-month', {
@@ -48,7 +50,7 @@ const ViewHoursMonth = () => {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        userId: userId.toString(), // Приведение к строке
+                        userId: userId.toString(),
                         userSelectMonth: selectedMonthView,
                     }),
                 });
@@ -69,6 +71,8 @@ const ViewHoursMonth = () => {
                 }
             } catch (error) {
                 console.error('Ошибка при получении данных о часах: ', error);
+            } finally {
+                setLoading(false); // Завершение загрузки
             }
         };
 
@@ -86,7 +90,11 @@ const ViewHoursMonth = () => {
                     <BackArrow lastPage={"/mouthbranch"} />
                     <div className="flex-grow flex items-center justify-center">
                         <div className="text-center text-white text-3xl mb-4">
-                            Ваши часы за {selectedMonthView} - "{hours}" и ид - "{id}"
+                            {loading ? (
+                                "идёт загрузка..."
+                            ) : (
+                                `Ваши часы за ${selectedMonthView} - "${hours}" и ид - "${id}"`
+                            )}
                         </div>
                     </div>
                 </div>
