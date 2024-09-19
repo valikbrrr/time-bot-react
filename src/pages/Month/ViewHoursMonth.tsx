@@ -25,10 +25,11 @@ const ViewHoursMonth = () => {
         fetchMonths();
     }, []);
 
-    // Сброс состояния при монтировании компонента
     useEffect(() => {
+        // Сбрасываем состояние при монтировании компонента
         setHours(0);
         dispatch(selectMonthView(''));
+        setLoading(false); // Убедитесь, что загрузка сбрасывается
     }, [dispatch]);
 
     useEffect(() => {
@@ -37,8 +38,7 @@ const ViewHoursMonth = () => {
                 return;
             }
 
-            // Устанавливаем загрузку
-            setLoading(true);
+            setLoading(true); // Устанавливаем загрузку
             setHours(0); // Сброс перед новым запросом
 
             const userId = tg.initDataUnsafe.user.id;
