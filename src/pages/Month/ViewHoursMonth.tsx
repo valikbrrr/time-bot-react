@@ -9,6 +9,7 @@ const ViewHoursMonth = () => {
     const [months, setMonths] = useState([]);
     const [hours, setHours] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [currentMonth, setCurrentMonth] = useState(''); // Новое состояние для текущего месяца
     const selectedMonthView = useSelector((state: any) => state.monthView.selectedMonthView);
 
     useEffect(() => {
@@ -29,7 +30,7 @@ const ViewHoursMonth = () => {
         // Сбрасываем состояние при монтировании компонента
         setHours(0);
         dispatch(selectMonthView(''));
-        setLoading(false); // Убедитесь, что загрузка сбрасывается
+        setLoading(false);
     }, [dispatch]);
 
     useEffect(() => {
@@ -40,6 +41,7 @@ const ViewHoursMonth = () => {
 
             setLoading(true); // Устанавливаем загрузку
             setHours(0); // Сброс перед новым запросом
+            setCurrentMonth(selectedMonthView); // Устанавливаем текущий месяц
 
             const userId = tg.initDataUnsafe.user.id;
 
@@ -76,7 +78,7 @@ const ViewHoursMonth = () => {
             } catch (error) {
                 console.error('Ошибка при получении данных о часах: ', error);
             } finally {
-                setLoading(false); // Обязательно сбрасываем состояние загрузки
+                setLoading(false); // Сбрасываем состояние загрузки
             }
         };
 
@@ -97,7 +99,7 @@ const ViewHoursMonth = () => {
                             {loading ? (
                                 "идёт загрузка..."
                             ) : (
-                                `Ваши часы за ${selectedMonthView} - "${hours}"`
+                                `Ваши часы за ${currentMonth} - "${hours}"`
                             )}
                         </div>
                     </div>
