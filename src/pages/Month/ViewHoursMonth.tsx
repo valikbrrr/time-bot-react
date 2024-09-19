@@ -35,7 +35,6 @@ const ViewHoursMonth = () => {
 
     useEffect(() => {
         const fetchHours = async () => {
-            // Сбрасываем часы и устанавливаем загрузку перед началом запроса
             setHours(0);
             setLoading(true);
 
