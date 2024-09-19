@@ -50,7 +50,7 @@ const ViewHoursProject = () => {
                 </div>
             </div>
         </div>
-    )
+    ) 
 }
 
 export default ViewHoursProject
