@@ -8,9 +8,8 @@ const ViewHoursMonth = () => {
     const dispatch = useDispatch();
     const [months, setMonths] = useState([]);
     const [hours, setHours] = useState(0);
-    // const [id, setId] = useState<number>(0);
     const [hasFetchedHours, setHasFetchedHours] = useState(false);
-    const [loading, setLoading] = useState(true); // Состояние загрузки
+    const [loading, setLoading] = useState(true);
     const selectedMonthView = useSelector((state: any) => state.monthView.selectedMonthView);
 
     useEffect(() => {
@@ -28,6 +27,12 @@ const ViewHoursMonth = () => {
     }, []);
 
     useEffect(() => {
+        setHours(0);
+        setHasFetchedHours(false);
+        setLoading(false);
+    }, [selectedMonthView]);
+
+    useEffect(() => {
         const fetchHours = async () => {
             if (hasFetchedHours || !selectedMonthView || !tg.initDataUnsafe.user) {
                 return;
@@ -41,7 +46,7 @@ const ViewHoursMonth = () => {
             }
 
             console.log(`selectedMonthView - ${selectedMonthView}`);
-            setLoading(true); // Начало загрузки
+            setLoading(true);
 
             try {
                 const response = await fetch('http://localhost:3001/api/view-hours-month', {
@@ -64,7 +69,6 @@ const ViewHoursMonth = () => {
 
                 if (data.hours !== undefined) {
                     setHours(data.hours);
-                    // setId(userId);
                     setHasFetchedHours(true);
                 } else {
                     console.error('Данные о часах отсутствуют:', data);
@@ -72,7 +76,7 @@ const ViewHoursMonth = () => {
             } catch (error) {
                 console.error('Ошибка при получении данных о часах: ', error);
             } finally {
-                setLoading(false); // Завершение загрузки
+                setLoading(false);
             }
         };
 
@@ -89,7 +93,7 @@ const ViewHoursMonth = () => {
                 <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col">
                     <BackArrow lastPage={"/mouthbranch"} />
                     <div className="flex-grow flex items-center justify-center">
-                        <div className="text-center text-white text-3xl mb-4">
+                        <div className="text-center text-white text-2xl mb-4 px-5">
                             {loading ? (
                                 "идёт загрузка..."
                             ) : (
