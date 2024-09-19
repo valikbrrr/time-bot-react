@@ -26,11 +26,13 @@ const ViewHoursMonth = () => {
         fetchMonths();
     }, []);
 
+    // Сброс состояния при монтировании компонента
     useEffect(() => {
         setHours(0);
         setHasFetchedHours(false);
         setLoading(false);
-    }, [selectedMonthView]);
+        dispatch(selectMonthView('')); // Используйте пустую строку
+    }, [dispatch]);
 
     useEffect(() => {
         const fetchHours = async () => {
