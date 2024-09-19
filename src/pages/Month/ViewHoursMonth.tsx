@@ -8,7 +8,6 @@ const ViewHoursMonth = () => {
     const dispatch = useDispatch();
     const [months, setMonths] = useState([]);
     const [hours, setHours] = useState(0);
-    const [hasFetchedHours, setHasFetchedHours] = useState(false);
     const [loading, setLoading] = useState(true);
     const selectedMonthView = useSelector((state: any) => state.monthView.selectedMonthView);
 
@@ -29,31 +28,26 @@ const ViewHoursMonth = () => {
     // Сброс состояния при монтировании компонента
     useEffect(() => {
         setHours(0);
-        setHasFetchedHours(false);
-        setLoading(false);
-        dispatch(selectMonthView('')); // Используйте пустую строку
+        dispatch(selectMonthView(''));
     }, [dispatch]);
 
     useEffect(() => {
         const fetchHours = async () => {
-            // Сбрасываем часы и устанавливаем загрузку перед началом запроса
-            setHours(0);
-            setLoading(true);
-
-            if (hasFetchedHours || !selectedMonthView || !tg.initDataUnsafe.user) {
-                setLoading(false); // Сбрасываем загрузку, если запрос не выполняется
+            if (!selectedMonthView || !tg.initDataUnsafe.user) {
                 return;
             }
+
+            // Устанавливаем загрузку
+            setLoading(true);
+            setHours(0); // Сброс перед новым запросом
 
             const userId = tg.initDataUnsafe.user.id;
 
             if (userId === 0) {
                 console.error('Получен некорректный userId');
-                setLoading(false); // Сбрасываем загрузку в случае ошибки
+                setLoading(false);
                 return;
             }
-
-            console.log(`selectedMonthView - ${selectedMonthView}`);
 
             try {
                 const response = await fetch('http://localhost:3001/api/view-hours-month', {
@@ -76,7 +70,6 @@ const ViewHoursMonth = () => {
 
                 if (data.hours !== undefined) {
                     setHours(data.hours);
-                    setHasFetchedHours(true);
                 } else {
                     console.error('Данные о часах отсутствуют:', data);
                 }
@@ -88,7 +81,7 @@ const ViewHoursMonth = () => {
         };
 
         fetchHours();
-    }, [selectedMonthView, tg.initDataUnsafe.user, hasFetchedHours]);
+    }, [selectedMonthView, tg.initDataUnsafe.user]);
 
     const handleMonthSelectView = (month: string) => {
         dispatch(selectMonthView(month));
