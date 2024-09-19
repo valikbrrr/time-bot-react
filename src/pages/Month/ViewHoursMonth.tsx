@@ -9,7 +9,7 @@ const ViewHoursMonth = () => {
     const [months, setMonths] = useState([]);
     const [hours, setHours] = useState(0);
     const [loading, setLoading] = useState(true);
-    const [currentMonth, setCurrentMonth] = useState(''); // Новое состояние для текущего месяца
+    const [currentMonth, setCurrentMonth] = useState('');
     const selectedMonthView = useSelector((state: any) => state.monthView.selectedMonthView);
 
     useEffect(() => {
@@ -27,11 +27,11 @@ const ViewHoursMonth = () => {
     }, []);
 
     useEffect(() => {
-        // Сбрасываем состояние при монтировании компонента
         setHours(0);
         dispatch(selectMonthView(''));
         setLoading(false);
     }, [dispatch]);
+
 
     useEffect(() => {
         const fetchHours = async () => {
@@ -68,7 +68,6 @@ const ViewHoursMonth = () => {
                 }
 
                 const data = await response.json();
-                console.log(`id front - ${userId}`, data);
 
                 if (data.hours !== undefined) {
                     setHours(data.hours);
@@ -78,7 +77,7 @@ const ViewHoursMonth = () => {
             } catch (error) {
                 console.error('Ошибка при получении данных о часах: ', error);
             } finally {
-                setLoading(false); // Сбрасываем состояние загрузки
+                setLoading(false); 
             }
         };
 

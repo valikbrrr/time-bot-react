@@ -2,12 +2,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import monthReducer from './monthSlice';
 import monthViewReducer from "./monthViewSlice"
+import projectViewReduser from "./projectViewSlice"
 
 
 const store = configureStore({
     reducer: {
         month: monthReducer,
         monthView: monthViewReducer,
+        projectView: projectViewReduser,
     },
 });
 
