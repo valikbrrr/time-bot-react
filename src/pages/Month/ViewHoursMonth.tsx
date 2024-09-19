@@ -26,19 +26,22 @@ const ViewHoursMonth = () => {
         fetchMonths();
     }, []);
 
+    // Сброс состояния при монтировании компонента
     useEffect(() => {
         setHours(0);
         setHasFetchedHours(false);
         setLoading(false);
-        dispatch(selectMonthView('')); 
+        dispatch(selectMonthView('')); // Используйте пустую строку
     }, [dispatch]);
 
     useEffect(() => {
         const fetchHours = async () => {
+            // Сбрасываем часы и устанавливаем загрузку перед началом запроса
             setHours(0);
             setLoading(true);
 
             if (hasFetchedHours || !selectedMonthView || !tg.initDataUnsafe.user) {
+                setLoading(false); // Сбрасываем загрузку, если запрос не выполняется
                 return;
             }
 
@@ -46,6 +49,7 @@ const ViewHoursMonth = () => {
 
             if (userId === 0) {
                 console.error('Получен некорректный userId');
+                setLoading(false); // Сбрасываем загрузку в случае ошибки
                 return;
             }
 
@@ -79,7 +83,7 @@ const ViewHoursMonth = () => {
             } catch (error) {
                 console.error('Ошибка при получении данных о часах: ', error);
             } finally {
-                setLoading(false);
+                setLoading(false); // Обязательно сбрасываем состояние загрузки
             }
         };
 
