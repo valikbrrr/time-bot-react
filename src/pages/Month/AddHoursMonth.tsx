@@ -1,4 +1,3 @@
-// src/components/AddHoursMonth.tsx
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMonth } from '../../store/monthSlice';
@@ -11,7 +10,7 @@ const url = process.env.REACT_APP_API_URL;
 
 const AddHoursMonth: React.FC = () => {
     const tg = window.Telegram.WebApp;
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [months, setMonths] = useState<string[]>([]);
     const [hours, setHours] = useState<string>('');
@@ -21,7 +20,6 @@ const AddHoursMonth: React.FC = () => {
     useEffect(() => {
         const fetchMonths = async () => {
             try {
-                const url = process.env.REACT_APP_API_URL;
                 const response = await fetch(`${url}/api/current-month`);
                 const data = await response.json(); 
                 setMonths(data);
@@ -33,13 +31,13 @@ const AddHoursMonth: React.FC = () => {
         fetchMonths();
     }, []);
 
-
+    // Сброс состояния при монтировании компонента
     useEffect(() => {
-        setHours("")
-        dispatch(selectMonthView(''))
-    }, [dispatch])
+        setHours('');
+        dispatch(selectMonth('')); // Сбрасываем выбранный месяц
+        dispatch(selectMonthView('')); // Сбрасываем состояние для monthView
+    }, [dispatch]);
 
-    
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         const regex = /^(?:[1-9][0-9]{0,2}|[1-7][0-4][0-4]?)$/;
@@ -50,15 +48,12 @@ const AddHoursMonth: React.FC = () => {
     };
     
     const handleSubmit = async () => {
-        setBackToHomepage(true)
-        console.log(`selectMonth - ${selectedMonth}`);
-        console.log(`hours - ${hours}`);
-        
+        setBackToHomepage(true);
         if (!selectedMonth) return;
-        console.log("workkk");
+
         try {
-            const name = tg.initDataUnsafe.user?.username || tg.initDataUnsafe.user?.first_name || "неизвестный пользователь"  
-            const id = tg.initDataUnsafe.user?.id ? tg.initDataUnsafe.user?.id.toString() : "неизвестный id"
+            const name = tg.initDataUnsafe.user?.username || tg.initDataUnsafe.user?.first_name || "неизвестный пользователь";  
+            const id = tg.initDataUnsafe.user?.id ? tg.initDataUnsafe.user?.id.toString() : "неизвестный id";
             const response = await fetch(`${url}/api/add-hours-month`, {
                 method: 'POST',
                 headers: {
@@ -154,10 +149,10 @@ const AddHoursMonth: React.FC = () => {
                                         {month}
                                     </button>
                                 ))}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             )}
         </div>
     );
