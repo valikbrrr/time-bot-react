@@ -35,8 +35,8 @@ const OpenProjectList = () => {
             </div>
             <div className="flex justify-center mb-40">
                 <div className="w-[70%]">
-                    <div className="grid grid-cols-2 gap-4"> {/* Изменено на grid с двумя колонками */}
-                        {loading ? ( // Проверка состояния загрузки
+                    <div className="flex flex-col items-center"> 
+                        {loading ? ( 
                             <div className="text-white text-center">Загрузка проектов...</div>
                         ) : (
                             projects.map((project, index) => (
