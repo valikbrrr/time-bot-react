@@ -58,7 +58,7 @@ const OpenProjectList = () => {
         try {
             const name = tg.initDataUnsafe.user?.username || tg.initDataUnsafe.user?.first_name || "неизвестный пользователь";  
             const id = tg.initDataUnsafe.user?.id ? tg.initDataUnsafe.user?.id.toString() : "неизвестный id";
-            const response = await fetch(`${url}/api/add-hours-month`, {
+            const response = await fetch(`${url}/api/add-hours-project`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
