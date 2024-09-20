@@ -41,7 +41,7 @@ const OpenProjectList = () => {
                         ) : (
                             projects.map((project, index) => (
                                 <button
-                                    className='bg-blue-500 text-white rounded-xl p-3 transition duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-600 shadow-lg hover:shadow-xl' 
+                                    className='bg-blue-500 text-white rounded-xl p-3 w-full mb-4 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl' 
                                     key={index}
                                 >
                                     {project}
