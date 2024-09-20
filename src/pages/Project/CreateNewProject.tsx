@@ -1,16 +1,18 @@
 import { SetStateAction, useState } from "react";
 import BackArrow from "../../assets/BackArrow";
 
+
 const CreateNewProject = () => {
     const [projectName, setProjectName] = useState(""); // Состояние для имени проекта
 
     const handleInputChange = (event: { target: { value: SetStateAction<string>; }; }) => {
         setProjectName(event.target.value); // Обновляем состояние при изменении ввода
     };
-
+    
     const handleSubmit = async () => {
         try {
-            const response = await fetch('http://localhost:3001/api/create-project', {
+            const url = process.env.REACT_APP_API_URL;
+            const response = await fetch(`${url}/api/create-project`, {
                 method: 'POST', 
                 headers: {
                     'Content-Type': 'application/json',

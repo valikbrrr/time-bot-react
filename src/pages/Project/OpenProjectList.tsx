@@ -1,6 +1,7 @@
 import BackArrow from "../../assets/BackArrow";
 import { useEffect, useState } from 'react';
 
+
 const OpenProjectList = () => {
     const [projects, setProject] = useState([]);
     const [loading, setLoading] = useState(true); // Состояние загрузки
@@ -9,7 +10,8 @@ const OpenProjectList = () => {
         const fetchProjects = async () => {
             setLoading(true); // Устанавливаем состояние загрузки
             try {
-                const response = await fetch('http://localhost:3001/api/exist-projects');
+                const url = process.env.REACT_APP_API_URL;
+                const response = await fetch(`${url}/api/exist-projects`);
                 const data = await response.json();
                 setProject(data);
                 console.log("work TRY");

@@ -3,6 +3,7 @@ import BackArrow from "../../assets/BackArrow"
 import { useDispatch, useSelector } from "react-redux";
 import { selectProjectView } from "../../store/projectViewSlice";
 
+const url = process.env.REACT_APP_API_URL;
 
 const ViewHoursProject = () => {
     const tg = window.Telegram.WebApp;
@@ -17,7 +18,7 @@ const ViewHoursProject = () => {
         const fetchProjects = async () => {
             setLoading(true); 
             try {
-                const response = await fetch('http://localhost:3001/api/exist-projects');
+                const response = await fetch(`${url}/api/exist-projects`);
                 const data = await response.json();
                 setProject(data);
                 console.log("work TRY");
@@ -57,7 +58,7 @@ const ViewHoursProject = () => {
             }
 
             try {
-                const response = await fetch('http://localhost:3001/api/view-hours-project', {
+                const response = await fetch(`${url}/api/view-hours-project`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

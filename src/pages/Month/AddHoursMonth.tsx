@@ -5,16 +5,20 @@ import { selectMonth } from '../../store/monthSlice';
 import BackArrow from '../../assets/BackArrow';
 import React from 'react';
 
+
 const AddHoursMonth: React.FC = () => {
     const dispatch = useDispatch();
     const [months, setMonths] = useState<string[]>([]);
     const [hours, setHours] = useState<string>('');
     const selectedMonth = useSelector((state: any) => state.month.selectedMonth); 
-
+    
     useEffect(() => {
         const fetchMonths = async () => {
             try {
-                const response = await fetch('http://localhost:3001/api/current-month');
+                const url = process.env.REACT_APP_API_URL;
+                console.log(`url - ${url}`);
+                
+                const response = await fetch(`${url}/api/current-month`);
                 const data = await response.json();
                 setMonths(data);
             } catch (error) {

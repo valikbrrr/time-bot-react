@@ -3,6 +3,8 @@ import BackArrow from '../../assets/BackArrow';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMonthView } from '../../store/monthViewSlice';
 
+const url = process.env.REACT_APP_API_URL;
+
 const ViewHoursMonth = () => {
     const tg = window.Telegram.WebApp;
     const dispatch = useDispatch();
@@ -11,11 +13,11 @@ const ViewHoursMonth = () => {
     const [loading, setLoading] = useState(true);
     const [currentMonth, setCurrentMonth] = useState('');
     const selectedMonthView = useSelector((state: any) => state.monthView.selectedMonthView);
-
+    
     useEffect(() => {
         const fetchMonths = async () => {
             try {
-                const response = await fetch('http://localhost:3001/api/current-month');
+                const response = await fetch(`${url}/api/current-month`);
                 const data = await response.json();
                 setMonths(data);
             } catch (error) {
@@ -52,7 +54,7 @@ const ViewHoursMonth = () => {
             }
 
             try {
-                const response = await fetch('http://localhost:3001/api/view-hours-month', {
+                const response = await fetch(`${url}/api/view-hours-month`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
