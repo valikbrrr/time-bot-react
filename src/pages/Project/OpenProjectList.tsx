@@ -2,14 +2,19 @@ import { useDispatch, useSelector } from "react-redux";
 import BackArrow from "../../assets/BackArrow";
 import { useEffect, useState } from 'react';
 import { selectProject } from "../../store/projectSlice";
+import { useNavigate } from "react-router-dom";
 
+const url = process.env.REACT_APP_API_URL;
 
 const OpenProjectList = () => {
+    const tg = window.Telegram.WebApp;
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [projects, setProject] = useState([]);
     const [hours, setHours] = useState<string>('');
     const [loading, setLoading] = useState(true);
     const selectedProject = useSelector((state: any) => state.project.selectedProject);
+    const [backToHomepage, setBackToHomepage] = useState<boolean>(false); 
     
     useEffect(() => {
         const fetchProjects = async () => {
@@ -35,6 +40,7 @@ const OpenProjectList = () => {
         dispatch(selectProject(''));
     }, [dispatch]);
 
+
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         const regex = /^(?:[1-9]|[1-9]\d|[1-5]\d{2}|6[0-9]{2}|7[0-4][0-4])$/;
@@ -44,9 +50,64 @@ const OpenProjectList = () => {
         }
     };
 
+
+    const handleSubmit = async () => {
+        setBackToHomepage(true);
+        if (!selectedProject) return;
+
+        try {
+            const name = tg.initDataUnsafe.user?.username || tg.initDataUnsafe.user?.first_name || "неизвестный пользователь";  
+            const id = tg.initDataUnsafe.user?.id ? tg.initDataUnsafe.user?.id.toString() : "неизвестный id";
+            const response = await fetch(`${url}/api/add-hours-month`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userName: name,
+                    userId: id,
+                    hoursInMonth: Number(hours),
+                    selectedMonth: selectedProject,
+                }),
+            });
+
+            if (response.ok) {
+                console.log('Данные успешно отправлены');
+                setHours(''); 
+            } else {
+                console.log('Ошибка при отправке данных');
+            }
+        } catch (error) {
+            console.error('Ошибка при отправке данных:', error);
+        }
+    };
+
+
     const handleProjectSelect = (project: string) => {
         dispatch(selectProject(project));
     };
+
+    if (backToHomepage) {
+        return (
+            <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col justify-center">
+                <div className="pt-32 px-[10%]">
+                    <div className="text-center text-white text-3xl mb-8">
+                        Ваши часы записаны!
+                    </div>
+                </div>
+                <div className="flex justify-center mb-40">
+                    <div className="w-[70%]">
+                        <div className="flex flex-col items-center">
+                            <button className="bg-blue-500 text-white rounded-xl p-3 w-full mb-4 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl"
+                                onClick={() => navigate("/")}>
+                                Вернуться на главную страницу
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="">
@@ -68,7 +129,7 @@ const OpenProjectList = () => {
                          />
                          <button
                          className="mt-4 bg-green-500 text-white rounded p-2 transition duration-300 ease-in-out hover:bg-green-600 w-full outline-none"
-                        //  onClick={handleSubmit}
+                         onClick={handleSubmit}
                          >
                              Отправить
                          </button>
