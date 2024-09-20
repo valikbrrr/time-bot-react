@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectMonth } from '../../store/monthSlice';
 import BackArrow from '../../assets/BackArrow';
 import React from 'react';
-import { selectMonthView } from '../../store/monthViewSlice';
 import { useNavigate } from 'react-router-dom';
 
 const url = process.env.REACT_APP_API_URL;
@@ -34,12 +33,11 @@ const AddHoursMonth: React.FC = () => {
     useEffect(() => {
         setHours('');
         dispatch(selectMonth(''));
-        dispatch(selectMonthView('')); 
     }, [dispatch]);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
-        const regex = /^(?:[1-9][0-9]{0,2}|[1-7][0-4][0-4]?)$/;
+        const regex = /^(?:[1-9]|[1-9]\d|[1-5]\d{2}|6[0-9]{2}|7[0-4][0-4])$/;
         
         if (regex.test(value) || value === '') {
             setHours(value);

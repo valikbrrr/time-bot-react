@@ -7,6 +7,7 @@ import { selectProject } from "../../store/projectSlice";
 const OpenProjectList = () => {
     const dispatch = useDispatch();
     const [projects, setProject] = useState([]);
+    const [hours, setHours] = useState<string>('');
     const [loading, setLoading] = useState(true);
     const selectedProject = useSelector((state: any) => state.project.selectedProject);
     
@@ -29,19 +30,51 @@ const OpenProjectList = () => {
         fetchProjects();
     }, []);
 
+    useEffect(() => {
+        setHours('');
+        dispatch(selectProject(''));
+    }, [dispatch]);
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        const regex = /^(?:[1-9]|[1-9]\d|[1-5]\d{2}|6[0-9]{2}|7[0-4][0-4])$/;
+        
+        if (regex.test(value) || value === '') {
+            setHours(value);
+        }
+    };
+
     const handleProjectSelect = (project: string) => {
-        console.log(`qqqqqqqqqqqq`);
-        console.log(project);
         dispatch(selectProject(project));
     };
 
     return (
         <div className="">
             {selectedProject ? (
-                <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col justify-between">
-                    <BackArrow lastPage={"/addhoursproject"} />
-                    <div className="">fffffffff</div>
-                </div>
+                 <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col">
+                 <BackArrow lastPage={"/mouthbranch"} />
+                 <div className="pt-20 px-[10%]">
+                     <div className="text-center text-white text-3xl mb-4">Введите количество часов</div>
+                 </div>
+                 <div className="text-white text-xl flex justify-center">
+                     <div className="text-center w-[70%]">
+                         Вы выбрали проект: {selectedProject}
+                         <input  
+                         type="text" 
+                         placeholder="Введите кол-во часов..." 
+                         className="mt-4 p-2 rounded w-full outline-none text-black"
+                         value={hours}
+                         onChange={handleInputChange}
+                         />
+                         <button
+                         className="mt-4 bg-green-500 text-white rounded p-2 transition duration-300 ease-in-out hover:bg-green-600 w-full outline-none"
+                        //  onClick={handleSubmit}
+                         >
+                             Отправить
+                         </button>
+                     </div>
+                 </div>
+             </div>
             ) : (
                 <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col justify-between">
                 <BackArrow lastPage={"/addhoursproject"} />
