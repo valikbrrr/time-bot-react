@@ -7,9 +7,10 @@ import React from 'react';
 import { selectMonthView } from '../../store/monthViewSlice';
 import { useNavigate } from 'react-router-dom';
 
+const url = process.env.REACT_APP_API_URL;
 
 const AddHoursMonth: React.FC = () => {
-
+    const tg = window.Telegram.WebApp;
     const navigate = useNavigate()
     const dispatch = useDispatch();
     const [months, setMonths] = useState<string[]>([]);
@@ -22,7 +23,7 @@ const AddHoursMonth: React.FC = () => {
             try {
                 const url = process.env.REACT_APP_API_URL;
                 const response = await fetch(`${url}/api/current-month`);
-                const data = await response.json(); // json?
+                const data = await response.json(); 
                 setMonths(data);
             } catch (error) {
                 console.error('Ошибка при получении данных:', error);
@@ -56,14 +57,18 @@ const AddHoursMonth: React.FC = () => {
         if (!selectedMonth) return;
         console.log("workkk");
         try {
-            const response = await fetch('http://localhost:3001/api/submit-hours', {
+            const name = tg.initDataUnsafe.user?.username || tg.initDataUnsafe.user?.first_name || "неизвестный пользователь"  
+            const id = tg.initDataUnsafe.user?.id ? tg.initDataUnsafe.user?.id.toString() : "неизвестный id"
+            const response = await fetch(`${url}/api/add-hours-month`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    month: selectedMonth,
-                    hours: Number(hours),
+                    userName: name,
+                    userId: id,
+                    hoursInMonth: Number(hours),
+                    selectedMonth: selectedMonth,
                 }),
             });
 
