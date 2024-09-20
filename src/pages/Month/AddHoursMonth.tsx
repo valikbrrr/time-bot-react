@@ -14,8 +14,8 @@ const AddHoursMonth: React.FC = () => {
     const dispatch = useDispatch();
     const [months, setMonths] = useState<string[]>([]);
     const [hours, setHours] = useState<string>('');
-    const selectedMonth = useSelector((state: any) => state.month.selectedMonth); 
     const [backToHomepage, setBackToHomepage] = useState<boolean>(false); 
+    const selectedMonth = useSelector((state: any) => state.month.selectedMonth); 
     
     useEffect(() => {
         const fetchMonths = async () => {
@@ -31,11 +31,10 @@ const AddHoursMonth: React.FC = () => {
         fetchMonths();
     }, []);
 
-    // Сброс состояния при монтировании компонента
     useEffect(() => {
         setHours('');
-        dispatch(selectMonth('')); // Сбрасываем выбранный месяц
-        dispatch(selectMonthView('')); // Сбрасываем состояние для monthView
+        dispatch(selectMonth(''));
+        dispatch(selectMonthView('')); 
     }, [dispatch]);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,6 +78,8 @@ const AddHoursMonth: React.FC = () => {
     };
     
     const handleMonthSelect = (month: string) => {
+        console.log(month);
+        
         dispatch(selectMonth(month));
     };
 
