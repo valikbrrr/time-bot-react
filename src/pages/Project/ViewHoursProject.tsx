@@ -32,11 +32,11 @@ const ViewHoursProject = () => {
         fetchProjects();
     }, []);
 
-    // useEffect(() => {
-    //     setHours(0);
-    //     dispatch(selectProjectView(''));
-    //     setLoading(false);
-    // }, [dispatch]);
+    useEffect(() => {
+        setHours(0);
+        dispatch(selectProjectView(''));
+        setLoading(false);
+    }, [dispatch]);
 
 
     useEffect(() => {
@@ -45,8 +45,8 @@ const ViewHoursProject = () => {
                 return;
             }
 
-            // setLoading(true); // Устанавливаем загрузку
-            // setHours(0); // Сброс перед новым запросом
+            setLoading(true); // Устанавливаем загрузку
+            setHours(0); // Сброс перед новым запросом
             setCurrentProject(selectedProjectView); // Устанавливаем текущий месяц
 
             const userId = tg.initDataUnsafe.user.id;
@@ -65,7 +65,7 @@ const ViewHoursProject = () => {
                     },
                     body: JSON.stringify({
                         userId: userId.toString(),
-                        userSelectMonth: selectedProjectView,
+                        userSelectProject: selectedProjectView,
                     }),
                 });
 
@@ -116,7 +116,7 @@ const ViewHoursProject = () => {
                     <BackArrow lastPage={"/mouthbranch"} />
                     <div className="pt-8 px-[10%]">
                         <div className="text-center text-white text-3xl mb-4">
-                            Выберите месяц для просмотра часов
+                            Выберите проект для просмотра часов
                         </div>
                     </div>
                     <div className="flex justify-center mb-40">
