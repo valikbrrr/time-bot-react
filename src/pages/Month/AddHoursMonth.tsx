@@ -73,10 +73,10 @@ const AddHoursMonth: React.FC = () => {
             });
 
             if (response.ok) {
-                alert('Данные успешно отправлены');
+                console.log('Данные успешно отправлены');
                 setHours(''); 
             } else {
-                alert('Ошибка при отправке данных');
+                console.log('Ошибка при отправке данных');
             }
         } catch (error) {
             console.error('Ошибка при отправке данных:', error);
