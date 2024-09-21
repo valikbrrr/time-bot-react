@@ -13,8 +13,8 @@ const OpenProjectList = () => {
     const [projects, setProject] = useState([]);
     const [hours, setHours] = useState<string>('');
     const [loading, setLoading] = useState(true);
-    const selectedProject = useSelector((state: any) => state.project.selectedProject);
     const [backToHomepage, setBackToHomepage] = useState<boolean>(false); 
+    const selectedProject = useSelector((state: any) => state.project.selectedProject);
     
     useEffect(() => {
         const fetchProjects = async () => {
@@ -53,9 +53,14 @@ const OpenProjectList = () => {
 
     const handleSubmit = async () => {
         setBackToHomepage(true);
-        if (!selectedProject) return;
-
+        if (!selectedProject) {
+            console.log(`!selectedProject`);
+            
+            return;
+        }
         try {
+            console.log(`selectedProject front - ${selectedProject}`);
+            
             const name = tg.initDataUnsafe.user?.username || tg.initDataUnsafe.user?.first_name || "неизвестный пользователь";  
             const id = tg.initDataUnsafe.user?.id ? tg.initDataUnsafe.user?.id.toString() : "неизвестный id";
             const response = await fetch(`${url}/api/add-hours-project`, {
@@ -66,8 +71,8 @@ const OpenProjectList = () => {
                 body: JSON.stringify({
                     userName: name,
                     userId: id,
-                    hoursInMonth: Number(hours),
-                    selectedMonth: selectedProject,
+                    hoursInProject: Number(hours),
+                    selectedProject: selectedProject,
                 }),
             });
 
