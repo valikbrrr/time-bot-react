@@ -8,7 +8,7 @@ const CreateNewProject = () => {
     const handleInputChange = (event: { target: { value: SetStateAction<string>; }; }) => {
         setProjectName(event.target.value); // Обновляем состояние при изменении ввода
     };
-    
+     
     const handleSubmit = async () => {
         try {
             const url = process.env.REACT_APP_API_URL;
