@@ -124,6 +124,7 @@ const AddHoursMonth: React.FC = () => {
                             <button
                             className="mt-4 bg-green-500 text-white rounded p-2 transition duration-300 ease-in-out hover:bg-green-600 w-full outline-none"
                             onClick={handleSubmit}
+                            disabled={!hours}
                             >
                                 Отправить
                             </button>

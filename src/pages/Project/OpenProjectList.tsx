@@ -135,6 +135,7 @@ const OpenProjectList = () => {
                          <button
                          className="mt-4 bg-green-500 text-white rounded p-2 transition duration-300 ease-in-out hover:bg-green-600 w-full outline-none"
                          onClick={handleSubmit}
+                         disabled={!hours}
                          >
                              Отправить
                          </button>
@@ -146,7 +147,7 @@ const OpenProjectList = () => {
                 <BackArrow lastPage={"/addhoursproject"} />
                 <div className="pt-8 px-[10%]">
                     <div className="text-center text-white text-3xl mb-4">
-                        Открыть список проектов
+                        Выберите ваш проект:
                     </div>
                 </div>
                 <div className="flex justify-center mb-40">
