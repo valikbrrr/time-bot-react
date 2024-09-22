@@ -64,6 +64,9 @@ const AddHoursMonth: React.FC = () => {
                 }),
             });
 
+            console.log(`response - ${await response.json()}`);
+            
+
             if (response.ok) {
                 console.log('Данные успешно отправлены');
                 setHours(''); 
