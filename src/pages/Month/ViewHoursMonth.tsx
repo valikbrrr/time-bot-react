@@ -102,7 +102,11 @@ const ViewHoursMonth = () => {
                             {loading ? (
                                 "идёт загрузка..."
                             ) : (
-                                `Ваши часы за ${currentMonth} - ${hours}`
+                                hours === null ? (
+                                    `Данные ранее не были записаны`
+                                ) : (
+                                    `Ваши часы за ${currentMonth} - ${hours}`
+                                )
                             )}
                         </div>
                     </div>

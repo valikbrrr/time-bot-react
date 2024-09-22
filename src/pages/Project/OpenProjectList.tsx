@@ -118,7 +118,7 @@ const OpenProjectList = () => {
         <div className="">
             {selectedProject ? (
                  <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col">
-                 <BackArrow lastPage={"/mouthbranch"} />
+                 <BackArrow lastPage={"/projectbranch"} />
                  <div className="pt-20 px-[10%]">
                      <div className="text-center text-white text-3xl mb-4">Введите количество часов</div>
                  </div>
