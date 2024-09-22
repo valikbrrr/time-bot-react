@@ -106,7 +106,7 @@ const ViewHoursProject = () => {
                             {loading ? (
                                 "идёт загрузка..."
                             ) : (
-                                `Ваши часы в проекте ${currentProject} - "${hours}"`
+                                `Ваши часы в проекте ${currentProject} - ${hours}`
                             )}
                         </div>
                     </div>

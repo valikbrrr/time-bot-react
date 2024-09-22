@@ -70,7 +70,8 @@ const ViewHoursMonth = () => {
                 }
 
                 const data = await response.json();
-
+                console.log(`data - ${data}`);
+                
                 if (data.hours !== undefined) {
                     setHours(data.hours);
                 } else {
@@ -100,7 +101,7 @@ const ViewHoursMonth = () => {
                             {loading ? (
                                 "идёт загрузка..."
                             ) : (
-                                `Ваши часы за ${currentMonth} - "${hours}"`
+                                `Ваши часы за ${currentMonth} - ${hours}`
                             )}
                         </div>
                     </div>
