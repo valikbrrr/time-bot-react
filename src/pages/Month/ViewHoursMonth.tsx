@@ -41,9 +41,9 @@ const ViewHoursMonth = () => {
                 return;
             }
 
-            setLoading(true); // Устанавливаем загрузку
-            setHours(0); // Сброс перед новым запросом
-            setCurrentMonth(selectedMonthView); // Устанавливаем текущий месяц
+            setLoading(true);
+            setHours(0); 
+            setCurrentMonth(selectedMonthView); 
 
             const userId = tg.initDataUnsafe.user.id;
 
@@ -66,6 +66,7 @@ const ViewHoursMonth = () => {
                 });
 
                 if (!response.ok) {
+                    console.log(`!response.ok`);
                     throw new Error(`Ошибка сети: ${response.status}`);
                 }
 

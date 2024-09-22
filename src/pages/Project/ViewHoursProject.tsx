@@ -45,9 +45,9 @@ const ViewHoursProject = () => {
                 return;
             }
 
-            setLoading(true); // Устанавливаем загрузку
-            setHours(0); // Сброс перед новым запросом
-            setCurrentProject(selectedProjectView); // Устанавливаем текущий месяц
+            setLoading(true);
+            setHours(0); 
+            setCurrentProject(selectedProjectView); 
 
             const userId = tg.initDataUnsafe.user.id;
 
@@ -74,6 +74,7 @@ const ViewHoursProject = () => {
                 }
 
                 const data = await response.json();
+                console.log(`data - ${data}`);
 
                 if (data.hours !== undefined) {
                     setHours(data.hours);
@@ -106,7 +107,11 @@ const ViewHoursProject = () => {
                             {loading ? (
                                 "идёт загрузка..."
                             ) : (
-                                `Ваши часы в проекте ${currentProject} - ${hours}`
+                                hours === null ? (
+                                    `Данные ранее не были записаны`
+                                ) : (
+                                    `Ваши часы в проекте: "${currentProject}" - ${hours}`
+                                )                            
                             )}
                         </div>
                     </div>
