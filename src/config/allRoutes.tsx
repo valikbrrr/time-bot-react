@@ -14,7 +14,7 @@ export const allRoutes = [
         element: <HomePage />,
     },
     {
-        path: "/mouthbranch",
+        path: "/monthbranch",
         element: <MonthBranch />,
     },
     {
@@ -38,6 +38,7 @@ export const allRoutes = [
         element: <ViewHoursProject/>,
     },
     {
+        // review пути через дефис path-to-abobus
         path: "/openprojectlist",
         element: <OpenProjectList/>,
     },
