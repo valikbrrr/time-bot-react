@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { selectMonth } from "../../store/monthSlice";
 import BackArrow from "../../assets/BackArrow";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,11 +10,11 @@ const url = process.env.REACT_APP_API_URL;
 const AddHoursMonth: React.FC = () => {
   const tg = window.Telegram.WebApp;
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [months, setMonths] = useState<string[]>([]);
   const [hours, setHours] = useState<string>("");
   const [backToHomepage, setBackToHomepage] = useState<boolean>(false);
-  const selectedMonth = useSelector((state: any) => state.month.selectedMonth);
+  const [showInput, setShowInput] = useState<boolean>(false);
+  const [selectedMonth, setSelectedMonth] = useState<string>("");
 
   useEffect(() => {
     const fetchMonths = async () => {
@@ -32,11 +30,6 @@ const AddHoursMonth: React.FC = () => {
     fetchMonths();
   }, []);
 
-  useEffect(() => {
-    setHours("");
-    dispatch(selectMonth(""));
-  }, [dispatch]);
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     const regex = /^(?:[1-9]|[1-9]\d|[1-5]\d{2}|6[0-9]{2}|7[0-4][0-4])$/;
@@ -48,7 +41,6 @@ const AddHoursMonth: React.FC = () => {
 
   const handleSubmit = async () => {
     setBackToHomepage(true);
-    if (!selectedMonth) return;
 
     try {
       const name =
@@ -87,9 +79,8 @@ const AddHoursMonth: React.FC = () => {
   };
 
   const handleMonthSelect = (month: string) => {
-    console.log(month);
-
-    dispatch(selectMonth(month));
+    setSelectedMonth(month);
+    setShowInput(true);
   };
 
   if (backToHomepage) {
@@ -118,7 +109,7 @@ const AddHoursMonth: React.FC = () => {
 
   return (
     <div className="">
-      {selectedMonth ? (
+      {showInput ? (
         <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col">
           <BackArrow lastPage={"/monthbranch"} />
           <div className="pt-20 px-[10%]">

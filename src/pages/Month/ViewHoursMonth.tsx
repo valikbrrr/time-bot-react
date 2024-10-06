@@ -1,20 +1,22 @@
 import { useEffect, useState } from "react";
 import BackArrow from "../../assets/BackArrow";
-import { useDispatch, useSelector } from "react-redux";
-import { selectMonthView } from "../../store/monthViewSlice";
+// import { useDispatch, useSelector } from "react-redux";
+// import { selectMonthView } from "../../store/monthViewSlice";
 
 const url = process.env.REACT_APP_API_URL;
 
 const ViewHoursMonth = () => {
   const tg = window.Telegram.WebApp;
-  const dispatch = useDispatch();
   const [months, setMonths] = useState([]);
   const [hours, setHours] = useState(0);
   const [loading, setLoading] = useState(true);
   const [currentMonth, setCurrentMonth] = useState("");
-  const selectedMonthView = useSelector(
-    (state: any) => state.monthView.selectedMonthView
-  );
+  const [showHours, setShowHours] = useState(false);
+  const [selectedMonthView, setSelectedMonthView] = useState("");
+  // const dispatch = useDispatch();
+  // const selectedMonthView = useSelector(
+  //   (state: any) => state.monthView.selectedMonthView
+  // );
 
   useEffect(() => {
     const fetchMonths = async () => {
@@ -30,15 +32,15 @@ const ViewHoursMonth = () => {
     fetchMonths();
   }, []);
 
-  useEffect(() => {
-    setHours(0);
-    dispatch(selectMonthView(""));
-    setLoading(false);
-  }, [dispatch]);
+  // useEffect(() => {
+  //   setHours(0);
+  //   dispatch(selectMonthView(""));
+  //   setLoading(false);
+  // }, [dispatch]);
 
   useEffect(() => {
     const fetchHours = async () => {
-      if (!selectedMonthView || !tg.initDataUnsafe.user) {
+      if (!tg.initDataUnsafe.user) {
         return;
       }
 
@@ -90,12 +92,14 @@ const ViewHoursMonth = () => {
   }, [selectedMonthView, tg.initDataUnsafe.user]);
 
   const handleMonthSelectView = (month: string) => {
-    dispatch(selectMonthView(month));
+    setSelectedMonthView(month);
+    setShowHours(true);
+    setLoading(false);
   };
 
   return (
     <div className="">
-      {selectedMonthView ? (
+      {showHours ? (
         <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col">
           <BackArrow lastPage={"/monthbranch"} />
           <div className="flex-grow flex items-center justify-center">
