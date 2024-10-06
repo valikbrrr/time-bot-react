@@ -155,11 +155,11 @@ const OpenProjectList = () => {
             <div className="w-[70%]">
               <div className="flex flex-col items-center">
                 {loading ? (
-                  <div className="text-white text-center">
+                  <div className="text-white text-center text-2xl">
                     Загрузка проектов...
                   </div>
                 ) : projects === null || projects.length === 0 ? ( // Проверка на null или пустой массив
-                  <div className="text-white text-center">
+                  <div className="text-white text-center text-2xl">
                     Проекты ещё не были созданы
                   </div>
                 ) : (
