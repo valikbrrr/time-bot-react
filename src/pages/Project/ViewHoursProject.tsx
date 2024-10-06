@@ -1,148 +1,147 @@
-import { useEffect, useState } from 'react';
-import BackArrow from "../../assets/BackArrow"
+import { useEffect, useState } from "react";
+import BackArrow from "../../assets/BackArrow";
 import { useDispatch, useSelector } from "react-redux";
 import { selectProjectView } from "../../store/projectViewSlice";
 
 const url = process.env.REACT_APP_API_URL;
 
 const ViewHoursProject = () => {
-    const tg = window.Telegram.WebApp;
-    const dispatch = useDispatch();
-    const [projects, setProject] = useState([]);
-    const [hours, setHours] = useState(0);
-    const [loading, setLoading] = useState(true); 
-    const [currentProject, setCurrentProject] = useState('');
-    const selectedProjectView = useSelector((state: any) => state.projectView.selectedProjectView)
-    
-    useEffect(() => {
-        const fetchProjects = async () => {
-            setLoading(true); 
-            try {
-                const response = await fetch(`${url}/api/exist-projects`);
-                const data = await response.json();
-                setProject(data);
-                console.log("work TRY");
-            } catch (error) {
-                console.error('Ошибка при получении данных:', error);
-            } finally {
-                setLoading(false); 
-            }
-        };
+  const tg = window.Telegram.WebApp;
+  const dispatch = useDispatch();
+  const [projects, setProject] = useState([]);
+  const [hours, setHours] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [currentProject, setCurrentProject] = useState("");
+  const selectedProjectView = useSelector(
+    (state: any) => state.projectView.selectedProjectView
+  );
 
-        fetchProjects();
-    }, []);
-
-    useEffect(() => {
-        setHours(0);
-        dispatch(selectProjectView(''));
+  useEffect(() => {
+    const fetchProjects = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`${url}/api/exist-projects`);
+        const data = await response.json();
+        setProject(data);
+        console.log("work TRY");
+      } catch (error) {
+        console.error("Ошибка при получении данных:", error);
+      } finally {
         setLoading(false);
-    }, [dispatch]);
+      }
+    };
 
+    fetchProjects();
+  }, []);
 
-    useEffect(() => {
-        const fetchHours = async () => {
-            if (!selectedProjectView || !tg.initDataUnsafe.user) {
-                return;
-            }
+  useEffect(() => {
+    setHours(0);
+    dispatch(selectProjectView(""));
+    setLoading(false);
+  }, [dispatch]);
 
-            setLoading(true);
-            setHours(0); 
-            setCurrentProject(selectedProjectView); 
+  useEffect(() => {
+    const fetchHours = async () => {
+      if (!selectedProjectView || !tg.initDataUnsafe.user) {
+        return;
+      }
 
-            const userId = tg.initDataUnsafe.user.id;
+      setLoading(true);
+      setHours(0);
+      setCurrentProject(selectedProjectView);
 
-            if (userId === 0) {
-                console.error('Получен некорректный userId');
-                setLoading(false);
-                return;
-            }
+      const userId = tg.initDataUnsafe.user.id;
 
-            try {
-                const response = await fetch(`${url}/api/view-hours-project`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        userId: userId.toString(),
-                        userSelectProject: selectedProjectView,
-                    }),
-                });
+      if (userId === 0) {
+        console.error("Получен некорректный userId");
+        setLoading(false);
+        return;
+      }
 
-                if (!response.ok) {
-                    throw new Error(`Ошибка сети: ${response.status}`);
-                }
+      try {
+        const response = await fetch(`${url}/api/view-hours-project`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: userId.toString(),
+            userSelectProject: selectedProjectView,
+          }),
+        });
 
-                const data = await response.json();
-                console.log(`data - ${data}`);
+        if (!response.ok) {
+          throw new Error(`Ошибка сети: ${response.status}`);
+        }
 
-                if (data.hours !== undefined) {
-                    setHours(data.hours);
-                } else {
-                    console.error('Данные о часах отсутствуют:', data);
-                }
-            } catch (error) {
-                console.error('Ошибка при получении данных о часах: ', error);
-            } finally {
-                setLoading(false);
-            }
-        };
+        const data = await response.json();
+        console.log(`data - ${data}`);
 
-        fetchHours();
-    }, [selectedProjectView, tg.initDataUnsafe.user]);
+        if (data.hours !== undefined) {
+          setHours(data.hours);
+        } else {
+          console.error("Данные о часах отсутствуют:", data);
+        }
+      } catch (error) {
+        console.error("Ошибка при получении данных о часах: ", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    fetchHours();
+  }, [selectedProjectView, tg.initDataUnsafe.user]);
 
-    const handleProjectSelectView = (project: string) => {
-        dispatch(selectProjectView(project));
-    }
+  const handleProjectSelectView = (project: string) => {
+    dispatch(selectProjectView(project));
+  };
 
-
-    return (
-        <div className="">
-            {selectedProjectView ?  (   
-                <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col">
-                    <BackArrow lastPage={"/projectbranch"} />
-                    <div className="flex-grow flex items-center justify-center">
-                        <div className="text-center text-white text-2xl mb-4 px-5">
-                            {loading ? (
-                                "идёт загрузка..."
-                            ) : (
-                                hours === null ? (
-                                    `Данные ранее не были записаны`
-                                ) : (
-                                    `Ваши часы в проекте: "${currentProject}" - ${hours}`
-                                )                            
-                            )}
-                        </div>
-                    </div>
-                </div>
-                ) : (
-                <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col justify-between">
-                    <BackArrow lastPage={"/mouthbranch"} />
-                    <div className="pt-8 px-[10%]">
-                        <div className="text-center text-white text-3xl mb-4">
-                            Выберите проект для просмотра часов
-                        </div>
-                    </div>
-                    <div className="flex justify-center mb-40">
-                        <div className="w-[70%]">
-                            <div className="flex flex-col items-center">
-                                {projects.map((project, index) => (
-                                    <button
-                                        className='bg-blue-500 text-white rounded-xl p-3 w-full mb-4 transition duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-600 shadow-lg hover:shadow-xl' 
-                                        key={index}
-                                        onClick={() => handleProjectSelectView(project)}
-                                    >
-                                        {project}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
+  return (
+    <div className="">
+      {selectedProjectView ? (
+        <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col">
+          <BackArrow lastPage={"/projectbranch"} />
+          <div className="flex-grow flex items-center justify-center">
+            <div className="text-center text-white text-2xl mb-4 px-5">
+              {loading
+                ? "идёт загрузка..."
+                : hours === null
+                ? `Данные ранее не были записаны`
+                : `Ваши часы в проекте: "${currentProject}" - ${hours}`}
+            </div>
+          </div>
         </div>
-    ) 
-}
- 
-export default ViewHoursProject
+      ) : (
+        <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col justify-between">
+          <BackArrow lastPage={"/projectbranch"} />
+          <div className="pt-8 px-[10%]">
+            <div className="text-center text-white text-3xl mb-4">
+              Выберите проект для просмотра часов
+            </div>
+          </div>
+          <div className="flex justify-center mb-40">
+            <div className="w-[70%]">
+              <div className="flex flex-col items-center">
+                {projects && projects.length > 0 ? (
+                  projects.map((project, index) => (
+                    <button
+                      className="bg-blue-500 text-white rounded-xl p-3 w-full mb-4 transition duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-600 shadow-lg hover:shadow-xl"
+                      key={index}
+                      onClick={() => handleProjectSelectView(project)}
+                    >
+                      {project}
+                    </button>
+                  ))       
+                ) : (
+                  <div className="text-white">проекты ещё не были созданы</div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ViewHoursProject;
