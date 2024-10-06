@@ -97,7 +97,7 @@ const ViewHoursMonth = () => {
     <div className="">
       {selectedMonthView ? (
         <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col">
-          <BackArrow lastPage={"/mouthbranch"} />
+          <BackArrow lastPage={"/monthbranch"} />
           <div className="flex-grow flex items-center justify-center">
             <div className="text-center text-white text-2xl mb-4 px-5">
               {loading
@@ -110,7 +110,7 @@ const ViewHoursMonth = () => {
         </div>
       ) : (
         <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col justify-between">
-          <BackArrow lastPage={"/mouthbranch"} />
+          <BackArrow lastPage={"/monthbranch"} />
           <div className="pt-8 px-[10%]">
             <div className="text-center text-white text-3xl mb-4">
               Выберите месяц для просмотра часов

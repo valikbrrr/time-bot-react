@@ -131,7 +131,7 @@ const ViewHoursProject = () => {
                     >
                       {project}
                     </button>
-                  ))       
+                  ))
                 ) : (
                   <div className="text-white">проекты ещё не были созданы</div>
                 )}

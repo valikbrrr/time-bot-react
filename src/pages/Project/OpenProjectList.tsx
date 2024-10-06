@@ -165,6 +165,10 @@ const OpenProjectList = () => {
                   <div className="text-white text-center">
                     Загрузка проектов...
                   </div>
+                ) : projects === null || projects.length === 0 ? ( // Проверка на null или пустой массив
+                  <div className="text-white text-center">
+                    Проекты ещё не были созданы
+                  </div>
                 ) : (
                   projects.map((project, index) => (
                     <button

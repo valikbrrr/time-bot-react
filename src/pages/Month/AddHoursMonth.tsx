@@ -120,7 +120,7 @@ const AddHoursMonth: React.FC = () => {
     <div className="">
       {selectedMonth ? (
         <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col">
-          <BackArrow lastPage={"/mouthbranch"} />
+          <BackArrow lastPage={"/monthbranch"} />
           <div className="pt-20 px-[10%]">
             <div className="text-center text-white text-3xl mb-4">
               Введите количество часов
@@ -148,7 +148,7 @@ const AddHoursMonth: React.FC = () => {
         </div>
       ) : (
         <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col justify-between">
-          <BackArrow lastPage={"/mouthbranch"} />
+          <BackArrow lastPage={"/monthbranch"} />
           <div className="pt-8 px-[10%]">
             <div className="text-center text-white text-3xl mb-4">
               Выберите ваш месяц
