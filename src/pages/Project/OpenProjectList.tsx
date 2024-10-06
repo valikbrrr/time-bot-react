@@ -1,6 +1,7 @@
 import BackArrow from "../../assets/BackArrow";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { constRouts } from "../../config/constRouts";
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -102,7 +103,7 @@ const OpenProjectList = () => {
             <div className="flex flex-col items-center">
               <button
                 className="bg-blue-500 text-white rounded-xl p-3 w-full mb-4 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl"
-                onClick={() => navigate("/")}
+                onClick={() => navigate(constRouts.homePage)}
               >
                 Вернуться на главную страницу
               </button>
@@ -117,7 +118,7 @@ const OpenProjectList = () => {
     <div className="">
       {showInput ? (
         <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col">
-          <BackArrow lastPage={"/projectbranch"} />
+          <BackArrow lastPage={constRouts.projectBranch} />
           <div className="pt-20 px-[10%]">
             <div className="text-center text-white text-3xl mb-4">
               Введите количество часов
@@ -145,7 +146,7 @@ const OpenProjectList = () => {
         </div>
       ) : (
         <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col justify-between">
-          <BackArrow lastPage={"/addhoursproject"} />
+          <BackArrow lastPage={constRouts.addHoursProject} />
           <div className="pt-8 px-[10%]">
             <div className="text-center text-white text-3xl mb-4">
               Выберите ваш проект:
@@ -158,7 +159,7 @@ const OpenProjectList = () => {
                   <div className="text-white text-center text-2xl">
                     Загрузка проектов...
                   </div>
-                ) : projects === null || projects.length === 0 ? ( // Проверка на null или пустой массив
+                ) : projects === null || projects.length === 0 ? ( 
                   <div className="text-white text-center text-2xl">
                     Проекты ещё не были созданы
                   </div>

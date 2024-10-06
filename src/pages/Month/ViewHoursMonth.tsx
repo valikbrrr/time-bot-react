@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import BackArrow from "../../assets/BackArrow";
+import { constRouts } from "../../config/constRouts";
 // import { useDispatch, useSelector } from "react-redux";
 // import { selectMonthView } from "../../store/monthViewSlice";
 
@@ -101,7 +102,7 @@ const ViewHoursMonth = () => {
     <div className="">
       {showHours ? (
         <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col">
-          <BackArrow lastPage={"/monthbranch"} />
+          <BackArrow lastPage={constRouts.monthBranch} />
           <div className="flex-grow flex items-center justify-center">
             <div className="text-center text-white text-2xl mb-4 px-5">
               {loading
@@ -114,7 +115,7 @@ const ViewHoursMonth = () => {
         </div>
       ) : (
         <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col justify-between">
-          <BackArrow lastPage={"/monthbranch"} />
+          <BackArrow lastPage={constRouts.monthBranch} />
           <div className="pt-8 px-[10%]">
             <div className="text-center text-white text-3xl mb-4">
               Выберите месяц для просмотра часов

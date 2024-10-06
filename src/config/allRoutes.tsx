@@ -14,36 +14,36 @@ export const allRoutes = [
         element: <HomePage />,
     },
     {
-        path: "/monthbranch",
+        path: "/month-branch",
         element: <MonthBranch />,
     },
     {
-        path: "/projectbranch",
+        path: "/project-branch",
         element: <ProjectBranch />,
     },
     {
-        path: "/addhoursproject",
+        path: "/add-hours-project",
         element: <AddHoursProject />,
     },
     {
-        path: "/addhoursmonth",
+        path: "/add-hours-month",
         element: <AddHoursMonth />,
     },
     {
-        path: "/viewhoursmonth",
+        path: "/view-hours-month",
         element: <ViewHoursMonth/>,
     },
     {
-        path: "/viewhoursproject",
+        path: "/view-hours-project",
         element: <ViewHoursProject/>,
     },
     {
         // review пути через дефис path-to-abobus
-        path: "/openprojectlist",
+        path: "/open-project-list",
         element: <OpenProjectList/>,
     },
     {
-        path: "/createnewproject",
+        path: "/create-new-project",
         element: <CreateNewProject/>,
     },
 ]

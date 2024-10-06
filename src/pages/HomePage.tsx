@@ -18,13 +18,13 @@ const HomePage = () => {
           <div className="flex flex-col items-center">
             <button
               className="bg-blue-500 text-white rounded-xl p-3 w-full mb-4 transition duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-600 shadow-lg hover:shadow-xl"
-              onClick={() => navigate("/monthbranch")}
+              onClick={() => navigate("/month-branch")}
             >
               Учёт времени по месяцам
             </button>
             <button
               className="bg-blue-500 text-white rounded-xl p-3 w-full transition duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-600 shadow-lg hover:shadow-xl"
-              onClick={() => navigate("/projectbranch")}
+              onClick={() => navigate("/project-branch")}
             >
               Учёт времени по проектам
             </button>
