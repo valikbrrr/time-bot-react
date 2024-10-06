@@ -1,7 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
 import BackArrow from "../../assets/BackArrow";
 import { useEffect, useState } from "react";
-import { selectProject } from "../../store/projectSlice";
 import { useNavigate } from "react-router-dom";
 
 const url = process.env.REACT_APP_API_URL;
@@ -9,14 +7,12 @@ const url = process.env.REACT_APP_API_URL;
 const OpenProjectList = () => {
   const tg = window.Telegram.WebApp;
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [projects, setProject] = useState([]);
   const [hours, setHours] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [backToHomepage, setBackToHomepage] = useState<boolean>(false);
-  const selectedProject = useSelector(
-    (state: any) => state.project.selectedProject
-  );
+  const [showInput, setShowInput] = useState(false);
+  const [selectedProject, setSelectedProject] = useState("");
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -36,11 +32,6 @@ const OpenProjectList = () => {
 
     fetchProjects();
   }, []);
-
-  useEffect(() => {
-    setHours("");
-    dispatch(selectProject(""));
-  }, [dispatch]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -93,7 +84,9 @@ const OpenProjectList = () => {
   };
 
   const handleProjectSelect = (project: string) => {
-    dispatch(selectProject(project));
+    setSelectedProject(project);
+    setShowInput(true);
+    setLoading(false);
   };
 
   if (backToHomepage) {
@@ -122,7 +115,7 @@ const OpenProjectList = () => {
 
   return (
     <div className="">
-      {selectedProject ? (
+      {showInput ? (
         <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col">
           <BackArrow lastPage={"/projectbranch"} />
           <div className="pt-20 px-[10%]">

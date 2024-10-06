@@ -1,20 +1,16 @@
 import { useEffect, useState } from "react";
 import BackArrow from "../../assets/BackArrow";
-import { useDispatch, useSelector } from "react-redux";
-import { selectProjectView } from "../../store/projectViewSlice";
 
 const url = process.env.REACT_APP_API_URL;
 
 const ViewHoursProject = () => {
   const tg = window.Telegram.WebApp;
-  const dispatch = useDispatch();
   const [projects, setProject] = useState([]);
   const [hours, setHours] = useState(0);
   const [loading, setLoading] = useState(true);
   const [currentProject, setCurrentProject] = useState("");
-  const selectedProjectView = useSelector(
-    (state: any) => state.projectView.selectedProjectView
-  );
+  const [showHours, setShowHours] = useState(false);
+  const [selectedProjectView, setSelectedProjectView] = useState("");
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -33,12 +29,6 @@ const ViewHoursProject = () => {
 
     fetchProjects();
   }, []);
-
-  useEffect(() => {
-    setHours(0);
-    dispatch(selectProjectView(""));
-    setLoading(false);
-  }, [dispatch]);
 
   useEffect(() => {
     const fetchHours = async () => {
@@ -93,12 +83,15 @@ const ViewHoursProject = () => {
   }, [selectedProjectView, tg.initDataUnsafe.user]);
 
   const handleProjectSelectView = (project: string) => {
-    dispatch(selectProjectView(project));
+    setSelectedProjectView(project);
+    setShowHours(true);
+    setLoading(false);
+    // dispatch(selectProjectView(project));
   };
 
   return (
     <div className="">
-      {selectedProjectView ? (
+      {showHours ? (
         <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col">
           <BackArrow lastPage={"/projectbranch"} />
           <div className="flex-grow flex items-center justify-center">
