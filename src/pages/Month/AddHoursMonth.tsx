@@ -5,6 +5,7 @@ import { constRouts } from "../../config/constRouts";
 import { BackToHomepage } from "../../components/BackToHomepage";
 import { Button } from "../../components/Button";
 import { MonthListComponents } from "../../components/MonthListComponent";
+import axios from "axios";
 
 console.log(`url - ${process.env.REACT_APP_API_URL}`);
 const url = process.env.REACT_APP_API_URL;
@@ -20,14 +21,13 @@ const AddHoursMonth: React.FC = () => {
   useEffect(() => {
     const fetchMonths = async () => {
       try {
-        const response = await fetch(`${url}/api/current-month`);
-        const data = await response.json();
-        setMonths(data);
+        const response = await axios.get(`${url}/api/current-month`); // Используйте axios для GET-запроса
+        setMonths(response.data); // Доступ к данным через response.data
       } catch (error) {
         console.error("Ошибка при получении данных:", error);
       }
     };
-
+  
     fetchMonths();
   }, []);
 

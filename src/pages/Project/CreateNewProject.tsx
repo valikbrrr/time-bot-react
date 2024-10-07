@@ -3,6 +3,7 @@ import BackArrow from "../../assets/BackArrow";
 import { useNavigate } from "react-router-dom";
 import { constRouts } from "../../config/constRouts";
 import { Button } from "../../components/Button";
+import axios from "axios";
 
 const CreateNewProject = () => {
   const navigate = useNavigate();
@@ -16,22 +17,15 @@ const CreateNewProject = () => {
       console.log(`projectName - ${projectName}`);
 
       const url = process.env.REACT_APP_API_URL;
-      const response = await fetch(`${url}/api/create-project`, {
+      const response = await axios.post(`${url}/api/create-project`, {
         method: "POST",
+        projectName: projectName,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          projectName: projectName,
-        }),
       });
 
-      if (!response.ok) {
-        throw new Error("Ошибка при отправке данных");
-      }
-
-      const data = await response.json();
-      console.log("Ответ от сервера:", data);
+      console.log("Ответ от сервера:", response.data);
 
       setProjectName("");
     } catch (error) {

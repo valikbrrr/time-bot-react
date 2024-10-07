@@ -4,6 +4,7 @@ import { constRouts } from "../../config/constRouts";
 import { BackToHomepage } from "../../components/BackToHomepage";
 import { Button } from "../../components/Button";
 import { ProjectListComponent } from "../../components/ProjectListComponent";
+import axios from "axios";
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -21,9 +22,8 @@ const OpenProjectList = () => {
       setLoading(true); // Устанавливаем состояние загрузки
       try {
         const url = process.env.REACT_APP_API_URL;
-        const response = await fetch(`${url}/api/exist-projects`);
-        const data = await response.json();
-        setProject(data);
+        const response = await axios.get(`${url}/api/exist-projects`);
+        setProject(response.data);
         console.log("work TRY");
       } catch (error) {
         console.error("Ошибка при получении данных:", error);
@@ -61,25 +61,19 @@ const OpenProjectList = () => {
       const id = tg.initDataUnsafe.user?.id
         ? tg.initDataUnsafe.user?.id.toString()
         : "неизвестный id";
-      const response = await fetch(`${url}/api/add-hours-project`, {
+      const response = await axios.post(`${url}/api/add-hours-project`, {
         method: "POST",
+        userName: name,
+        userId: id,
+        hoursInProject: Number(hours),
+        selectedProject: selectedProject,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          userName: name,
-          userId: id,
-          hoursInProject: Number(hours),
-          selectedProject: selectedProject,
-        }),
       });
 
-      if (response.ok) {
-        console.log("Данные успешно отправлены");
-        setHours("");
-      } else {
-        console.log("Ошибка при отправке данных");
-      }
+      console.log("Данные успешно отправлены", response.data);
+      setHours("");
     } catch (error) {
       console.error("Ошибка при отправке данных:", error);
     }

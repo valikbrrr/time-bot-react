@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import BackArrow from "../../assets/BackArrow";
 import { constRouts } from "../../config/constRouts";
 import { ProjectListComponent } from "../../components/ProjectListComponent";
+import axios from "axios";
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -18,10 +19,8 @@ const ViewHoursProject = () => {
     const fetchProjects = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${url}/api/exist-projects`);
-        const data = await response.json();
-        setProject(data);
-        console.log("work TRY");
+        const response = await axios.get(`${url}/api/exist-projects`);
+        setProject(response.data);
       } catch (error) {
         console.error("Ошибка при получении данных:", error);
       } finally {
@@ -51,28 +50,21 @@ const ViewHoursProject = () => {
       }
 
       try {
-        const response = await fetch(`${url}/api/view-hours-project`, {
+        const response = await axios.post(`${url}/api/view-hours-project`, {
           method: "POST",
+          userId: userId.toString(),
+          userSelectProject: selectedProjectView,
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            userId: userId.toString(),
-            userSelectProject: selectedProjectView,
-          }),
         });
 
-        if (!response.ok) {
-          throw new Error(`Ошибка сети: ${response.status}`);
-        }
+        console.log(`data - ${response.data}`);
 
-        const data = await response.json();
-        console.log(`data - ${data}`);
-
-        if (data.hours !== undefined) {
-          setHours(data.hours);
+        if (response.data.hours !== undefined) {
+          setHours(response.data.hours);
         } else {
-          console.error("Данные о часах отсутствуют:", data);
+          console.error("Данные о часах отсутствуют:", response.data);
         }
       } catch (error) {
         console.error("Ошибка при получении данных о часах: ", error);

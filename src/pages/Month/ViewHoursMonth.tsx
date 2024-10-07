@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import BackArrow from "../../assets/BackArrow";
 import { constRouts } from "../../config/constRouts";
 import { MonthListComponents } from "../../components/MonthListComponent";
-// import { useDispatch, useSelector } from "react-redux";
-// import { selectMonthView } from "../../store/monthViewSlice";
+import axios from "axios";
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -19,59 +18,50 @@ const ViewHoursMonth = () => {
   useEffect(() => {
     const fetchMonths = async () => {
       try {
-        const response = await fetch(`${url}/api/current-month`);
-        const data = await response.json();
-        setMonths(data);
+        const response = await axios.get(`${url}/api/current-month`); 
+        setMonths(response.data);
       } catch (error) {
         console.error("Ошибка при получении данных о месяцах:", error);
       }
     };
-
+  
     fetchMonths();
   }, []);
-
+  
   useEffect(() => {
     const fetchHours = async () => {
       if (!tg.initDataUnsafe.user) {
         return;
       }
-
+  
       setLoading(true);
       setHours(0);
       setCurrentMonth(selectedMonthView);
-
+  
       const userId = tg.initDataUnsafe.user.id;
-
+  
       if (userId === 0) {
         console.error("Получен некорректный userId");
         setLoading(false);
         return;
       }
-
+  
       try {
-        const response = await fetch(`${url}/api/view-hours-month`, {
-          method: "POST",
+        const response = await axios.post(`${url}/api/view-hours-month`, {
+          userId: userId.toString(),
+          userSelectMonth: selectedMonthView,
+        }, {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            userId: userId.toString(),
-            userSelectMonth: selectedMonthView,
-          }),
         });
-
-        if (!response.ok) {
-          console.log(`!response.ok`);
-          throw new Error(`Ошибка сети: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log(`data - ${data}`);
-
-        if (data.hours !== undefined) {
-          setHours(data.hours);
+  
+        console.log(`data - ${response.data}`);
+  
+        if (response.data.hours !== undefined) {
+          setHours(response.data.hours);
         } else {
-          console.error("Данные о часах отсутствуют:", data);
+          console.error("Данные о часах отсутствуют:", response.data);
         }
       } catch (error) {
         console.error("Ошибка при получении данных о часах: ", error);
@@ -79,7 +69,7 @@ const ViewHoursMonth = () => {
         setLoading(false);
       }
     };
-
+  
     fetchHours();
   }, [selectedMonthView, tg.initDataUnsafe.user]);
 
