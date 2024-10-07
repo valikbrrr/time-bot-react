@@ -2,6 +2,7 @@ import { SetStateAction, useState } from "react";
 import BackArrow from "../../assets/BackArrow";
 import { useNavigate } from "react-router-dom";
 import { constRouts } from "../../config/constRouts";
+import { Button } from "../../components/Button";
 
 const CreateNewProject = () => {
   const navigate = useNavigate();
@@ -57,18 +58,19 @@ const CreateNewProject = () => {
           <div className="flex justify-center mb-40">
             <div className="w-[70%]">
               <div className="flex flex-col justify-between">
-                <button
-                  className="bg-blue-500 text-white rounded-xl p-3 w-full mb-4 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl"
+                <Button
+                  variant="buttonMenu"
                   onClick={() => navigate(constRouts.openProjectList)}
+                  className="mb-4"
                 >
                   Открыть список проектов
-                </button>
-                <button
-                  className="bg-blue-500 text-white rounded-xl p-3 w-full mb-4 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl"
+                </Button>
+                <Button
+                  variant="buttonMenu"
                   onClick={() => navigate(constRouts.homePage)}
                 >
                   Вернуться на главную страницу
-                </button>
+                </Button>
               </div>
             </div>
           </div>
