@@ -2,13 +2,12 @@ import { useEffect, useState } from "react";
 import BackArrow from "../../assets/BackArrow";
 import { constRouts } from "../../config/constRouts";
 import { MonthListComponents } from "../../components/MonthListComponent";
-import axios from "axios";
+import { fetchMonths, postViewHoursMonth } from "../../api/monthBranchApi";
 
-const url = process.env.REACT_APP_API_URL;
 
 const ViewHoursMonth = () => {
   const tg = window.Telegram.WebApp;
-  const [months, setMonths] = useState([]);
+  const [months, setMonths] = useState<string[]>([]);
   const [hours, setHours] = useState(0);
   const [loading, setLoading] = useState(true);
   const [currentMonth, setCurrentMonth] = useState("");
@@ -16,16 +15,16 @@ const ViewHoursMonth = () => {
   const [selectedMonthView, setSelectedMonthView] = useState("");
 
   useEffect(() => {
-    const fetchMonths = async () => {
+    const loadMonths = async () => {
       try {
-        const response = await axios.get(`${url}/api/current-month`); 
-        setMonths(response.data);
+        const data = await fetchMonths(); 
+        setMonths(data);
       } catch (error) {
         console.error("Ошибка при получении данных о месяцах:", error);
       }
     };
   
-    fetchMonths();
+    loadMonths();
   }, []);
   
   useEffect(() => {
@@ -47,14 +46,7 @@ const ViewHoursMonth = () => {
       }
   
       try {
-        const response = await axios.post(`${url}/api/view-hours-month`, {
-          userId: userId.toString(),
-          userSelectMonth: selectedMonthView,
-        }, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await postViewHoursMonth(userId, selectedMonthView)
   
         console.log(`data - ${response.data}`);
   

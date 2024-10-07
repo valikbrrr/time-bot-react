@@ -5,10 +5,7 @@ import { constRouts } from "../../config/constRouts";
 import { BackToHomepage } from "../../components/BackToHomepage";
 import { Button } from "../../components/Button";
 import { MonthListComponents } from "../../components/MonthListComponent";
-import axios from "axios";
-
-console.log(`url - ${process.env.REACT_APP_API_URL}`);
-const url = process.env.REACT_APP_API_URL;
+import { postAddHoursMonth, fetchMonths } from "../../api/monthBranchApi";
 
 const AddHoursMonth: React.FC = () => {
   const tg = window.Telegram.WebApp;
@@ -19,16 +16,16 @@ const AddHoursMonth: React.FC = () => {
   const [selectedMonth, setSelectedMonth] = useState<string>("");
 
   useEffect(() => {
-    const fetchMonths = async () => {
+    const loadMonths = async () => {
       try {
-        const response = await axios.get(`${url}/api/current-month`); // Используйте axios для GET-запроса
-        setMonths(response.data); // Доступ к данным через response.data
+        const data = await fetchMonths();
+        setMonths(data);
       } catch (error) {
-        console.error("Ошибка при получении данных:", error);
+        console.error("Ошибка при загрузке месяцев:", error);
       }
     };
-  
-    fetchMonths();
+
+    loadMonths();
   }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,30 +48,16 @@ const AddHoursMonth: React.FC = () => {
       const id = tg.initDataUnsafe.user?.id
         ? tg.initDataUnsafe.user?.id.toString()
         : "неизвестный id";
-      console.log("work try");
-      const response = await fetch(`${url}/api/add-hours-month`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userName: name,
-          userId: id,
-          hoursInMonth: Number(hours),
-          selectedMonth: selectedMonth,
-        }),
-      });
+      const response = await postAddHoursMonth(
+        name,
+        id,
+        Number(hours),
+        selectedMonth
+      );
 
-      console.log(`response - ${await response.json()}`);
-
-      if (response.ok) {
-        console.log("Данные успешно отправлены");
-        setHours("");
-      } else {
-        console.log("Ошибка при отправке данных");
-      }
+      console.log(`response - ${response}`);
+      setHours("");
     } catch (error) {
-      console.log("work try");
       console.error("Ошибка при отправке данных:", error);
     }
   };
@@ -108,21 +91,17 @@ const AddHoursMonth: React.FC = () => {
                 value={hours}
                 onChange={handleInputChange}
               />
-              <Button
-                variant="send"
-                onClick={handleSubmit}
-                disabled={!hours}
-              >
+              <Button variant="send" onClick={handleSubmit} disabled={!hours}>
                 Отправить
               </Button>
             </div>
           </div>
         </div>
       ) : (
-        <MonthListComponents 
-        months={months} 
-        onMonthSelect={handleMonthSelect} 
-      />
+        <MonthListComponents
+          months={months}
+          onMonthSelect={handleMonthSelect}
+        />
       )}
     </div>
   );
