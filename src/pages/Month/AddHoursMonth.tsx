@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import BackArrow from "../../assets/BackArrow";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { constRouts } from "../../config/constRouts";
-// import { Button } from "../../components/Button";
+import { BackToHomepage } from "../../components/BackToHomepage";
+import { Button } from "../../components/Button";
 
 console.log(`url - ${process.env.REACT_APP_API_URL}`);
 const url = process.env.REACT_APP_API_URL;
 
 const AddHoursMonth: React.FC = () => {
   const tg = window.Telegram.WebApp;
-  const navigate = useNavigate();
   const [months, setMonths] = useState<string[]>([]);
   const [hours, setHours] = useState<string>("");
   const [backToHomepage, setBackToHomepage] = useState<boolean>(false);
@@ -85,27 +84,7 @@ const AddHoursMonth: React.FC = () => {
   };
 
   if (backToHomepage) {
-    return (
-      <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col justify-center">
-        <div className="pt-32 px-[10%]">
-          <div className="text-center text-white text-3xl mb-8">
-            Ваши часы записаны!
-          </div>
-        </div>
-        <div className="flex justify-center mb-40">
-          <div className="w-[70%]">
-            <div className="flex flex-col items-center">
-              <button
-                className="bg-blue-500 text-white rounded-xl p-3 w-full mb-4 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl"
-                onClick={() => navigate(constRouts.homePage)}
-              >
-                Вернуться на главную страницу
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    return <BackToHomepage />;
   }
 
   return (
@@ -128,13 +107,13 @@ const AddHoursMonth: React.FC = () => {
                 value={hours}
                 onChange={handleInputChange}
               />
-              <button
-                className="mt-4 bg-green-500 text-white rounded p-2 transition duration-300 ease-in-out hover:bg-green-600 w-full outline-none"
+              <Button
+                variant="send"
                 onClick={handleSubmit}
-                disabled={!hours}
+                disabled={!hours} // Передаем состояние disabled
               >
                 Отправить
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -150,21 +129,13 @@ const AddHoursMonth: React.FC = () => {
             <div className="w-[70%]">
               <div className="flex flex-col items-center">
                 {months.map((month, index) => (
-                  // review
-                  //   <Button
-                  //     key={index}
-                  //     variant="primary"
-                  //     onClick={() => handleMonthSelect(month)}
-                  //   >
-                  //     {month}
-                  //   </Button>
-                  <button
-                    className="bg-blue-500 text-white rounded-xl p-3 w-full mb-4 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  <Button
                     key={index}
+                    variant="forMonth"
                     onClick={() => handleMonthSelect(month)}
                   >
                     {month}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>
