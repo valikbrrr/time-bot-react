@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import BackArrow from "../../assets/BackArrow";
 import { constRouts } from "../../config/constRouts";
 import { ProjectListComponent } from "../../components/ProjectListComponent";
-import axios from "axios";
-
-const url = process.env.REACT_APP_API_URL;
+import {
+  fetchProjects,
+  postViewHoursProject,
+} from "../../api/projectBranchApi";
 
 const ViewHoursProject = () => {
   const tg = window.Telegram.WebApp;
@@ -16,11 +17,11 @@ const ViewHoursProject = () => {
   const [selectedProjectView, setSelectedProjectView] = useState("");
 
   useEffect(() => {
-    const fetchProjects = async () => {
+    const loadProjects = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`${url}/api/exist-projects`);
-        setProject(response.data);
+        const data = await fetchProjects();
+        setProject(data);
       } catch (error) {
         console.error("Ошибка при получении данных:", error);
       } finally {
@@ -28,7 +29,7 @@ const ViewHoursProject = () => {
       }
     };
 
-    fetchProjects();
+    loadProjects();
   }, []);
 
   useEffect(() => {
@@ -50,14 +51,10 @@ const ViewHoursProject = () => {
       }
 
       try {
-        const response = await axios.post(`${url}/api/view-hours-project`, {
-          method: "POST",
-          userId: userId.toString(),
-          userSelectProject: selectedProjectView,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await postViewHoursProject(
+          userId,
+          selectedProjectView
+        );
 
         console.log(`data - ${response.data}`);
 

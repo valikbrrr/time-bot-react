@@ -4,9 +4,7 @@ import { constRouts } from "../../config/constRouts";
 import { BackToHomepage } from "../../components/BackToHomepage";
 import { Button } from "../../components/Button";
 import { ProjectListComponent } from "../../components/ProjectListComponent";
-import axios from "axios";
-
-const url = process.env.REACT_APP_API_URL;
+import { fetchProjects, postAddHoursProject } from "../../api/projectBranchApi";
 
 const OpenProjectList = () => {
   const tg = window.Telegram.WebApp;
@@ -18,21 +16,19 @@ const OpenProjectList = () => {
   const [selectedProject, setSelectedProject] = useState("");
 
   useEffect(() => {
-    const fetchProjects = async () => {
-      setLoading(true); // Устанавливаем состояние загрузки
+    const loadProjects = async () => {
+      setLoading(true);
       try {
-        const url = process.env.REACT_APP_API_URL;
-        const response = await axios.get(`${url}/api/exist-projects`);
-        setProject(response.data);
-        console.log("work TRY");
+        const data = await fetchProjects();
+        setProject(data);
       } catch (error) {
         console.error("Ошибка при получении данных:", error);
       } finally {
-        setLoading(false); // Сбрасываем состояние загрузки
+        setLoading(false);
       }
     };
 
-    fetchProjects();
+    loadProjects();
   }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,16 +57,7 @@ const OpenProjectList = () => {
       const id = tg.initDataUnsafe.user?.id
         ? tg.initDataUnsafe.user?.id.toString()
         : "неизвестный id";
-      const response = await axios.post(`${url}/api/add-hours-project`, {
-        method: "POST",
-        userName: name,
-        userId: id,
-        hoursInProject: Number(hours),
-        selectedProject: selectedProject,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+        const response = await postAddHoursProject(name, id, Number(hours), selectedProject)
 
       console.log("Данные успешно отправлены", response.data);
       setHours("");
