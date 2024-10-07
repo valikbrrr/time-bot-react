@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import BackArrow from "../../assets/BackArrow";
 import { constRouts } from "../../config/constRouts";
-import { Button } from "../../components/Button";
+import { ProjectListComponent } from "../../components/ProjectListComponent";
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -106,35 +106,12 @@ const ViewHoursProject = () => {
           </div>
         </div>
       ) : (
-        <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col justify-between">
-          <BackArrow lastPage={constRouts.projectBranch} />
-          <div className="pt-8 px-[10%]">
-            <div className="text-center text-white text-3xl mb-4">
-              Выберите проект для просмотра часов
-            </div>
-          </div>
-          <div className="flex justify-center mb-40">
-            <div className="w-[70%]">
-              <div className="flex flex-col items-center">
-                {projects && projects.length > 0 ? (
-                  projects.map((project, index) => (
-                    <Button
-                      key={index}
-                      variant="forMonth"
-                      onClick={() => handleProjectSelectView(project)}
-                    >
-                      {project}
-                    </Button>
-                  ))
-                ) : (
-                  <div className="text-white text-center text-xl">
-                    проекты ещё не были созданы
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
+        <ProjectListComponent
+          loading={loading}
+          projects={projects}
+          onProjectSelect={handleProjectSelectView}
+          backRout={constRouts.projectBranch}
+        />
       )}
     </div>
   );
