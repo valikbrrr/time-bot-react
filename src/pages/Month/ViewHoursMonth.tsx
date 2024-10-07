@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import BackArrow from "../../assets/BackArrow";
 import { constRouts } from "../../config/constRouts";
 import { MonthListComponents } from "../../components/MonthListComponent";
-import { fetchMonths, postViewHoursMonth } from "../../api/monthBranchApi";
+import { postViewHoursMonth } from "../../api/monthBranchApi/postViewHoursMonth";
+import { fetchMonths } from "../../api/monthBranchApi/fetchMonths";
 
 
 const ViewHoursMonth = () => {

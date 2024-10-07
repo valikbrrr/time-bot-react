@@ -4,7 +4,8 @@ import { constRouts } from "../../config/constRouts";
 import { BackToHomepage } from "../../components/BackToHomepage";
 import { Button } from "../../components/Button";
 import { ProjectListComponent } from "../../components/ProjectListComponent";
-import { fetchProjects, postAddHoursProject } from "../../api/projectBranchApi";
+import { fetchProjects} from "../../api/projectBranchApi/fetchProjects";
+import { postAddHoursProject } from "../../api/projectBranchApi/postAddHoursProject";
 
 const OpenProjectList = () => {
   const tg = window.Telegram.WebApp;

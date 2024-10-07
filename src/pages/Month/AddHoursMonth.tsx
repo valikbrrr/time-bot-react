@@ -5,7 +5,8 @@ import { constRouts } from "../../config/constRouts";
 import { BackToHomepage } from "../../components/BackToHomepage";
 import { Button } from "../../components/Button";
 import { MonthListComponents } from "../../components/MonthListComponent";
-import { postAddHoursMonth, fetchMonths } from "../../api/monthBranchApi";
+import { fetchMonths } from "../../api/monthBranchApi/fetchMonths";
+import { postAddHoursMonth } from "../../api/monthBranchApi/postAddHoursMonth";
 
 const AddHoursMonth: React.FC = () => {
   const tg = window.Telegram.WebApp;

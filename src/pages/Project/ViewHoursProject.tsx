@@ -3,9 +3,9 @@ import BackArrow from "../../assets/BackArrow";
 import { constRouts } from "../../config/constRouts";
 import { ProjectListComponent } from "../../components/ProjectListComponent";
 import {
-  fetchProjects,
-  postViewHoursProject,
-} from "../../api/projectBranchApi";
+  fetchProjects
+} from "../../api/projectBranchApi/fetchProjects";
+import { postViewHoursProject } from "../../api/projectBranchApi/postViewHoursProject";
 
 const ViewHoursProject = () => {
   const tg = window.Telegram.WebApp;

@@ -3,7 +3,7 @@ import BackArrow from "../../assets/BackArrow";
 import { useNavigate } from "react-router-dom";
 import { constRouts } from "../../config/constRouts";
 import { Button } from "../../components/Button";
-import { postCreateNewProject } from "../../api/projectBranchApi";
+import { postCreateNewProject } from "../../api/projectBranchApi/postCreateNewProject";
 
 const CreateNewProject = () => {
   const navigate = useNavigate();
