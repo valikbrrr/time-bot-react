@@ -2,6 +2,7 @@ import BackArrow from "../../assets/BackArrow";
 import { useEffect, useState } from "react";
 import { constRouts } from "../../config/constRouts";
 import { BackToHomepage } from "../../components/BackToHomepage";
+import { Button } from "../../components/Button";
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -90,7 +91,7 @@ const OpenProjectList = () => {
   };
 
   if (backToHomepage) {
-    <BackToHomepage/>
+    return <BackToHomepage />;
   }
 
   return (
@@ -113,13 +114,9 @@ const OpenProjectList = () => {
                 value={hours}
                 onChange={handleInputChange}
               />
-              <button
-                className="mt-4 bg-green-500 text-white rounded p-2 transition duration-300 ease-in-out hover:bg-green-600 w-full outline-none"
-                onClick={handleSubmit}
-                disabled={!hours}
-              >
+              <Button variant="send" onClick={handleSubmit} disabled={!hours}>
                 Отправить
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -138,21 +135,19 @@ const OpenProjectList = () => {
                   <div className="text-white text-center text-2xl">
                     Загрузка проектов...
                   </div>
-                ) : projects === null || projects.length === 0 ? ( 
+                ) : projects === null || projects.length === 0 ? (
                   <div className="text-white text-center text-2xl">
                     Проекты ещё не были созданы
                   </div>
                 ) : (
                   projects.map((project, index) => (
-                    <button
-                      className="bg-blue-500 text-white rounded-xl p-3 w-full mb-4 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl"
+                    <Button
                       key={index}
-                      onClick={() => {
-                        handleProjectSelect(project);
-                      }}
+                      variant="forMonth"
+                      onClick={() => handleProjectSelect(project)}
                     >
                       {project}
-                    </button>
+                    </Button>
                   ))
                 )}
               </div>

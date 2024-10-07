@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import BackArrow from "../../assets/BackArrow";
 import { constRouts } from "../../config/constRouts";
+import { Button } from "../../components/Button";
 // import { useDispatch, useSelector } from "react-redux";
 // import { selectMonthView } from "../../store/monthViewSlice";
 
@@ -14,10 +15,6 @@ const ViewHoursMonth = () => {
   const [currentMonth, setCurrentMonth] = useState("");
   const [showHours, setShowHours] = useState(false);
   const [selectedMonthView, setSelectedMonthView] = useState("");
-  // const dispatch = useDispatch();
-  // const selectedMonthView = useSelector(
-  //   (state: any) => state.monthView.selectedMonthView
-  // );
 
   useEffect(() => {
     const fetchMonths = async () => {
@@ -32,12 +29,6 @@ const ViewHoursMonth = () => {
 
     fetchMonths();
   }, []);
-
-  // useEffect(() => {
-  //   setHours(0);
-  //   dispatch(selectMonthView(""));
-  //   setLoading(false);
-  // }, [dispatch]);
 
   useEffect(() => {
     const fetchHours = async () => {
@@ -125,13 +116,13 @@ const ViewHoursMonth = () => {
             <div className="w-[70%]">
               <div className="flex flex-col items-center">
                 {months.map((month, index) => (
-                  <button
-                    className={`bg-blue-500 text-white rounded-xl p-3 w-full mb-4 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl`}
+                  <Button
                     key={index}
+                    variant="forMonth"
                     onClick={() => handleMonthSelectView(month)}
                   >
                     {month}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>

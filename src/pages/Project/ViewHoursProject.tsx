@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import BackArrow from "../../assets/BackArrow";
 import { constRouts } from "../../config/constRouts";
+import { Button } from "../../components/Button";
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -117,13 +118,13 @@ const ViewHoursProject = () => {
               <div className="flex flex-col items-center">
                 {projects && projects.length > 0 ? (
                   projects.map((project, index) => (
-                    <button
-                      className="bg-blue-500 text-white rounded-xl p-3 w-full mb-4 transition duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-600 shadow-lg hover:shadow-xl"
+                    <Button
                       key={index}
+                      variant="forMonth"
                       onClick={() => handleProjectSelectView(project)}
                     >
                       {project}
-                    </button>
+                    </Button>
                   ))
                 ) : (
                   <div className="text-white text-center text-xl">

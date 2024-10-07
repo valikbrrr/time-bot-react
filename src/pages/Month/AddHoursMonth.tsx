@@ -110,7 +110,7 @@ const AddHoursMonth: React.FC = () => {
               <Button
                 variant="send"
                 onClick={handleSubmit}
-                disabled={!hours} // Передаем состояние disabled
+                disabled={!hours}
               >
                 Отправить
               </Button>
