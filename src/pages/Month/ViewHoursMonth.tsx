@@ -52,14 +52,14 @@ const ViewHoursMonth = () => {
         console.log(`userId - ${userId}`);
         console.log(`selectedMonthView - ${selectedMonthView}`);
 
-        const data = await postViewHoursMonth(userId, selectedMonthView);
-
-        console.log(`data - ${data.hours}`);
-
-        if (data.hours !== undefined) {
-          setHours(data.hours);
-        } else {
-          console.error("Данные о часах отсутствуют:", data);
+        if (selectedMonthView) {
+          const data = await postViewHoursMonth(userId, selectedMonthView);
+          if (data.hours !== undefined) {
+            setHours(data.hours);
+          } else {
+            console.error("Данные о часах отсутствуют:", data);
+          }
+          console.log(`data - ${data.hours}`);
         }
       } catch (error) {
         console.error("Ошибка при получении данных о часах: ", error);
