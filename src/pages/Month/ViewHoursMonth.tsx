@@ -5,7 +5,6 @@ import { MonthListComponents } from "../../components/MonthListComponent";
 import { postViewHoursMonth } from "../../api/monthBranchApi/postViewHoursMonth";
 import { fetchMonths } from "../../api/monthBranchApi/fetchMonths";
 
-
 const ViewHoursMonth = () => {
   const tg = window.Telegram.WebApp;
   const [months, setMonths] = useState<string[]>([]);
@@ -18,43 +17,47 @@ const ViewHoursMonth = () => {
   useEffect(() => {
     const loadMonths = async () => {
       try {
-        const data = await fetchMonths(); 
+        const data = await fetchMonths();
         setMonths(data);
       } catch (error) {
         console.error("Ошибка при получении данных о месяцах:", error);
       }
     };
-  
+
     loadMonths();
   }, []);
-  
+
   useEffect(() => {
+    console.log("work useEf");
+
     const fetchHours = async () => {
       if (!tg.initDataUnsafe.user) {
+        console.log("work if 1");
         return;
       }
-  
+
       setLoading(true);
       setHours(0);
       setCurrentMonth(selectedMonthView);
-  
+      console.log("work 2");
+
       const userId = tg.initDataUnsafe.user.id;
-  
+
       if (userId === 0) {
         console.error("Получен некорректный userId");
         setLoading(false);
         return;
       }
-  
+
       try {
-        const response = await postViewHoursMonth(userId, selectedMonthView)
-  
-        console.log(`data - ${response.data}`);
-  
-        if (response.data.hours !== undefined) {
-          setHours(response.data.hours);
+        const data = await postViewHoursMonth(userId, selectedMonthView);
+
+        console.log(`data - ${data}`);
+
+        if (data.hours !== undefined) {
+          setHours(data.hours);
         } else {
-          console.error("Данные о часах отсутствуют:", response.data);
+          console.error("Данные о часах отсутствуют:", data);
         }
       } catch (error) {
         console.error("Ошибка при получении данных о часах: ", error);
@@ -62,7 +65,7 @@ const ViewHoursMonth = () => {
         setLoading(false);
       }
     };
-  
+
     fetchHours();
   }, [selectedMonthView, tg.initDataUnsafe.user]);
 
@@ -88,10 +91,10 @@ const ViewHoursMonth = () => {
           </div>
         </div>
       ) : (
-        <MonthListComponents 
-        months={months} 
-        onMonthSelect={handleMonthSelectView} 
-      />
+        <MonthListComponents
+          months={months}
+          onMonthSelect={handleMonthSelectView}
+        />
       )}
     </div>
   );

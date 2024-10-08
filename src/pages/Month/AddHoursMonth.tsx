@@ -15,7 +15,7 @@ const AddHoursMonth: React.FC = () => {
   const [backToHomepage, setBackToHomepage] = useState<boolean>(false);
   const [showInput, setShowInput] = useState<boolean>(false);
   const [selectedMonth, setSelectedMonth] = useState<string>("");
-
+  // зашел в прилку -> запрос на месяцы -> ставишь часы -> запрос на постановку часов -> !!!!!!рефетч месяцев и постановка их в стейт
   useEffect(() => {
     const loadMonths = async () => {
       try {
