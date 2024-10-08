@@ -32,7 +32,6 @@ const ViewHoursMonth = () => {
 
     const fetchHours = async () => {
       if (!tg.initDataUnsafe.user) {
-        console.log("work if 1");
         return;
       }
 
@@ -52,7 +51,7 @@ const ViewHoursMonth = () => {
       try {
         const data = await postViewHoursMonth(userId, selectedMonthView);
 
-        console.log(`data - ${data}`);
+        console.log(`data - ${data.hours}`);
 
         if (data.hours !== undefined) {
           setHours(data.hours);
