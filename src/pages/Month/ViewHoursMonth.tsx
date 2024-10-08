@@ -49,6 +49,9 @@ const ViewHoursMonth = () => {
       }
 
       try {
+        console.log(`userId - ${userId}`);
+        console.log(`selectedMonthView - ${selectedMonthView}`);
+
         const data = await postViewHoursMonth(userId, selectedMonthView);
 
         console.log(`data - ${data.hours}`);
