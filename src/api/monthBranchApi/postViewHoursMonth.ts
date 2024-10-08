@@ -4,16 +4,16 @@ const url = process.env.REACT_APP_API_URL;
 
 export const postViewHoursMonth = async (
   userId: number,
-  selectedMonthView: string
+  userSelectMonth: string
 ) => {
   try {
     console.log(`work try`);
-    console.log(`selectedMonthView in post - ${selectedMonthView}`);
-    
+    console.log(`selectedMonthView in post - ${userSelectMonth}`);
+
     const response = await axios.post(
       `${url}/api/view-hours-month`,
       {
-        selectedMonthView,
+        userSelectMonth,
         userId,
       },
       {
