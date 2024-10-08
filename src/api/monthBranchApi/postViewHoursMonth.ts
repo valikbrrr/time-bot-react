@@ -8,6 +8,8 @@ export const postViewHoursMonth = async (
 ) => {
   try {
     console.log(`work try`);
+    console.log(`selectedMonthView in post - ${selectedMonthView}`);
+    
     const response = await axios.post(
       `${url}/api/view-hours-month`,
       {
