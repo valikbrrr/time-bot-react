@@ -7,7 +7,7 @@ export const postCreateNewProject = async (projectName: string) => {
 
   try {
     const response = await axios.post(
-      `${url}/api/create-new-project`,
+      `${url}/api/create-project`,
       {
         projectName,
       },
