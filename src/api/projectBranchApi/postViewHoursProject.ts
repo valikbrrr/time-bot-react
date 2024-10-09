@@ -8,7 +8,8 @@ export const postViewHoursProject = async (
 ) => {
   try {
     console.log(`work try`);
-    console.log(`selectedMonthView in post - ${userSelectProject}`);
+    console.log(`selectedProjectView in post - ${userSelectProject}`);
+
     const response = await axios.post(
       `${url}/api/view-hours-project`,
       {

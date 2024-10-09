@@ -16,11 +16,14 @@ const ViewHoursMonth = () => {
 
   useEffect(() => {
     const loadMonths = async () => {
+      setLoading(true);
       try {
         const data = await fetchMonths();
         setMonths(data);
       } catch (error) {
         console.error("Ошибка при получении данных о месяцах:", error);
+      } finally {
+        setLoading(false);
       }
     };
 

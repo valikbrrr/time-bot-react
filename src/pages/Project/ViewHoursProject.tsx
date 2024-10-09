@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import BackArrow from "../../assets/BackArrow";
 import { constRouts } from "../../config/constRouts";
 import { ProjectListComponent } from "../../components/ProjectListComponent";
-import {
-  fetchProjects
-} from "../../api/projectBranchApi/fetchProjects";
+import { fetchProjects } from "../../api/projectBranchApi/fetchProjects";
 import { postViewHoursProject } from "../../api/projectBranchApi/postViewHoursProject";
 
 const ViewHoursProject = () => {
@@ -33,6 +31,8 @@ const ViewHoursProject = () => {
   }, []);
 
   useEffect(() => {
+    console.log("work useEf");
+
     const fetchHours = async () => {
       if (!selectedProjectView || !tg.initDataUnsafe.user) {
         return;
@@ -51,17 +51,17 @@ const ViewHoursProject = () => {
       }
 
       try {
-        const response = await postViewHoursProject(
-          userId,
-          selectedProjectView
-        );
+        console.log(`userId - ${userId}`);
+        console.log(`selectedProjectView - ${selectedProjectView}`);
 
-        console.log(`data - ${response.data}`);
+        if (selectedProjectView) {
+          const data = await postViewHoursProject(userId, selectedProjectView);
 
-        if (response.data.hours !== undefined) {
-          setHours(response.data.hours);
-        } else {
-          console.error("Данные о часах отсутствуют:", response.data);
+          if (data.hours !== undefined) {
+            setHours(data.hours);
+          } else {
+            console.error("Данные о часах отсутствуют:", data);
+          }
         }
       } catch (error) {
         console.error("Ошибка при получении данных о часах: ", error);
@@ -79,7 +79,6 @@ const ViewHoursProject = () => {
     setLoading(false);
   };
 
-  
   return (
     <div className="">
       {showHours ? (
