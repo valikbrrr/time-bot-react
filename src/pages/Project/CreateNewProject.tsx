@@ -12,13 +12,14 @@ const CreateNewProject = () => {
     useState<boolean>(false);
 
   const handleSubmit = async () => {
+    
     setBackToOpenProjectList(true);
     try {
-      console.log(`projectName - ${projectName}`);
+      console.log(`FRONT projectName - ${projectName}`);
 
-      const response = await postCreateNewProject((projectName))
+      const data = await postCreateNewProject(projectName);
 
-      console.log("Ответ от сервера:", response.data);
+      console.log("Ответ от сервера:", data);
 
       setProjectName("");
     } catch (error) {
