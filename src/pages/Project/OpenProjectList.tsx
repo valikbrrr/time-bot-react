@@ -58,9 +58,9 @@ const OpenProjectList = () => {
       const id = tg.initDataUnsafe.user?.id
         ? tg.initDataUnsafe.user?.id.toString()
         : "неизвестный id";
-        const response = await postAddHoursProject(name, id, Number(hours), selectedProject)
+        await postAddHoursProject(name, id, Number(hours), selectedProject)
 
-      console.log("Данные успешно отправлены", response);
+      console.log("Данные успешно отправлены");
       setHours("");
     } catch (error) {
       console.error("Ошибка при отправке данных:", error);

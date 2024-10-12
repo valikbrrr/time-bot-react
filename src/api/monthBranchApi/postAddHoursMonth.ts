@@ -9,7 +9,7 @@ export const postAddHoursMonth = async (
   selectedMonth: string
 ) => {
   try {
-    const response = await axios.post(
+    await axios.post(
       `${url}/api/add-hours-month`,
       {
         userName,
@@ -23,9 +23,6 @@ export const postAddHoursMonth = async (
         },
       }
     );
-    console.log(response.data);
-
-    return response.data;
   } catch (error) {
     console.error("Ошибка при отправке данных:", error);
     throw error;

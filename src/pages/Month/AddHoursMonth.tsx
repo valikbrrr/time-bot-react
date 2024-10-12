@@ -15,7 +15,7 @@ const AddHoursMonth: React.FC = () => {
   const [backToHomepage, setBackToHomepage] = useState<boolean>(false);
   const [showInput, setShowInput] = useState<boolean>(false);
   const [selectedMonth, setSelectedMonth] = useState<string>("");
-  // зашел в прилку -> запрос на месяцы -> ставишь часы -> запрос на постановку часов -> !!!!!!рефетч месяцев и постановка их в стейт
+
   useEffect(() => {
     const loadMonths = async () => {
       try {
@@ -49,14 +49,8 @@ const AddHoursMonth: React.FC = () => {
       const id = tg.initDataUnsafe.user?.id
         ? tg.initDataUnsafe.user?.id.toString()
         : "неизвестный id";
-      const response = await postAddHoursMonth(
-        name,
-        id,
-        Number(hours),
-        selectedMonth
-      );
+      await postAddHoursMonth(name, id, Number(hours), selectedMonth);
 
-      console.log(`response - ${response}`);
       setHours("");
     } catch (error) {
       console.error("Ошибка при отправке данных:", error);

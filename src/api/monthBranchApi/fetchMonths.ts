@@ -2,10 +2,12 @@ import axios from "axios";
 
 const url = process.env.REACT_APP_API_URL;
 
-export const fetchMonths = async () => {
+type MonthResponse = string[];
+
+export const fetchMonths = async (): Promise<MonthResponse> => {
   try {
     console.log(`work try`);
-    const response = await axios.get(`${url}/api/current-month`);
+    const response = await axios.get<MonthResponse>(`${url}/api/current-month`);
     console.log(response.data);
     return response.data;
   } catch (error) {

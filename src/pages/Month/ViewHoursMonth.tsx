@@ -7,7 +7,7 @@ import { fetchMonths } from "../../api/monthBranchApi/fetchMonths";
 
 const ViewHoursMonth = () => {
   const tg = window.Telegram.WebApp;
-  const [months, setMonths] = useState([]);
+  const [months, setMonths] = useState<string[]>([]);
   const [hours, setHours] = useState(0);
   const [loading, setLoading] = useState(true);
   const [currentMonth, setCurrentMonth] = useState("");
