@@ -12,7 +12,6 @@ const CreateNewProject = () => {
     useState<boolean>(false);
 
   const handleSubmit = async () => {
-    
     setBackToOpenProjectList(true);
     try {
       console.log(`FRONT projectName - ${projectName}`);

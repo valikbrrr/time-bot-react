@@ -4,7 +4,7 @@ import { constRouts } from "../../config/constRouts";
 import { BackToHomepage } from "../../components/BackToHomepage";
 import { Button } from "../../components/Button";
 import { ProjectListComponent } from "../../components/ProjectListComponent";
-import { fetchProjects} from "../../api/projectBranchApi/fetchProjects";
+import { fetchProjects } from "../../api/projectBranchApi/fetchProjects";
 import { postAddHoursProject } from "../../api/projectBranchApi/postAddHoursProject";
 
 const OpenProjectList = () => {
@@ -58,7 +58,7 @@ const OpenProjectList = () => {
       const id = tg.initDataUnsafe.user?.id
         ? tg.initDataUnsafe.user?.id.toString()
         : "неизвестный id";
-        await postAddHoursProject(name, id, Number(hours), selectedProject)
+      await postAddHoursProject(name, id, Number(hours), selectedProject);
 
       console.log("Данные успешно отправлены");
       setHours("");

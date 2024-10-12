@@ -7,7 +7,10 @@ interface MonthListComponentsProps {
   onMonthSelect: (month: string) => void;
 }
 
-export const MonthListComponents: React.FC<MonthListComponentsProps> = ({ months, onMonthSelect }) => {
+export const MonthListComponents: React.FC<MonthListComponentsProps> = ({
+  months,
+  onMonthSelect,
+}) => {
   return (
     <div className="bg-[#26425A] w-full h-full min-h-screen min-w-screen overflow-hidden flex flex-col justify-between">
       <BackArrow lastPage={constRouts.monthBranch} />
