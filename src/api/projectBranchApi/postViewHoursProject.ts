@@ -2,7 +2,6 @@ import axios from "axios";
 
 const url = process.env.REACT_APP_API_URL;
 
-// Определите тип для ответа
 interface ViewHoursResponse {
   hours: number;
 }

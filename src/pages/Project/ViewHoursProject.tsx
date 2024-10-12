@@ -7,7 +7,7 @@ import { postViewHoursProject } from "../../api/projectBranchApi/postViewHoursPr
 
 const ViewHoursProject = () => {
   const tg = window.Telegram.WebApp;
-  const [projects, setProject] = useState([]);
+  const [projects, setProject] = useState<string[]>([]);
   const [hours, setHours] = useState(0);
   const [loading, setLoading] = useState(true);
   const [currentProject, setCurrentProject] = useState("");

@@ -9,7 +9,7 @@ import { postAddHoursProject } from "../../api/projectBranchApi/postAddHoursProj
 
 const OpenProjectList = () => {
   const tg = window.Telegram.WebApp;
-  const [projects, setProject] = useState([]);
+  const [projects, setProject] = useState<string[]>([]);
   const [hours, setHours] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [backToHomepage, setBackToHomepage] = useState<boolean>(false);
