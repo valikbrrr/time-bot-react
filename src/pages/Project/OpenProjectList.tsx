@@ -60,7 +60,7 @@ const OpenProjectList = () => {
         : "неизвестный id";
         const response = await postAddHoursProject(name, id, Number(hours), selectedProject)
 
-      console.log("Данные успешно отправлены", response.data);
+      console.log("Данные успешно отправлены", response);
       setHours("");
     } catch (error) {
       console.error("Ошибка при отправке данных:", error);
