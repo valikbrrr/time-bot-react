@@ -23,7 +23,8 @@ export const postAddHoursProject = async (
           },
         }
       );
-  
+      console.log(response.data);
+      
       return response.data;
     } catch (error) {
       console.error("Ошибка при отправке данных:", error);
